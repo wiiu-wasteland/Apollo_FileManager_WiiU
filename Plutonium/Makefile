@@ -6,8 +6,7 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>/devkitpro")
 endif
 
-include $(DEVKITPRO)/devkitA64/base_rules
-include $(DEVKITPRO)/libnx/switch_rules
+include $(DEVKITPRO)/wut/share/wut_rules
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -16,34 +15,30 @@ include $(DEVKITPRO)/libnx/switch_rules
 # INCLUDES is a list of directories containing header files
 #---------------------------------------------------------------------------------
 BUILD		:=	Build
-TARGET		:=  pu
-SOURCES		:=	Source Source/pu Source/pu/draw Source/pu/element Source/pu/overlay Source/pu/render Source/pu/util Source/pu/web
-INCLUDES	:=	Include Include/pu Include/pu/draw Include/pu/element Include/pu/overlay Include/pu/render Include/pu/util Include/pu/web
+TARGET		:=	pu
+SOURCES		:=	Source Source/pu Source/pu/draw Source/pu/element Source/pu/overlay Source/pu/render Source/pu/input Source/pu/util Source/pu/web
+INCLUDES	:=	Include Include/pu Include/pu/draw Include/pu/element Include/pu/overlay Include/pu/render Include/pu/input Include/pu/util Include/pu/web
 
-#---------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # options for code generation
-#---------------------------------------------------------------------------------
-ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIC -ftls-model=local-exec
+#-------------------------------------------------------------------------------
+CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
+			$(MACHDEP)
 
-CFLAGS	:=	-g -w -D__SWITCH__ \
-			-ffunction-sections \
-			-fdata-sections \
-			$(ARCH) \
-
-CFLAGS	+=	$(INCLUDE)
+CFLAGS	+=	$(INCLUDE) -D__WIIU__ -D__WUT__
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-specs=${DEVKITPRO}/libnx/switch.specs -g $(ARCH) -Wl,-r,-Map,$(notdir $*.map)
+LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:=  -lnx -lfreetype -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lSDL2 -lEGL -lGLESv2 -lglapi -ldrm_nouveau -lpng -ljpeg `sdl2-config --libs` `freetype-config --libs` -lwebp
+LIBS	:= -lwut -lfreetype -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lSDL2
 
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(LIBNX)
+#-------------------------------------------------------------------------------
+# list of directories containing libraries, this must be the top level
+# containing include and lib
+#-------------------------------------------------------------------------------
+LIBDIRS	:= $(PORTLIBS) $(WUT_ROOT)
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

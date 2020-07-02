@@ -66,7 +66,7 @@ namespace ui
     void TextLayout::LoadTextIntoContainer()
     {
         std::string outputtext;
-        u32 maxlines = 17;
+        uint32_t maxlines = 17;
         for (std::vector<std::string>::size_type t = 0 + this->scroll; t != this->wrappedTextFile.size(); t++)
         {
             if (maxlines == 0)  break;
@@ -79,7 +79,7 @@ namespace ui
     void TextLayout::PrepareTextToView()
     {
         this->wrappedTextFile.clear();
-        u32 pos = 0;
+        uint32_t pos = 0;
         for (auto &t : this->originalTextFile)
         {
             std::vector<std::string> txtcntr = DivideLongText(t, 85);

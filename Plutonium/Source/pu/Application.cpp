@@ -6,11 +6,13 @@ namespace pu
     {
         this->rend = new render::Renderer();
         this->rend->Initialize();
+		this->input = new input::Input();
+		this->input->Initialize();
         this->show = false;
         this->bgcolor = { 235, 235, 235, 255 };
         this->bgimage = "";
         this->hasimage = false;
-        this->cbipt = [&](u64 Down, u64 Up, u64 Held, bool Touch){};
+        this->cbipt = [&](uint32_t Down, uint32_t Up, uint32_t Held, bool Touch){};
         this->rover = false;
         this->ovl = NULL;
         this->fovl = false;
@@ -73,12 +75,12 @@ namespace pu
         this->thds.push_back(Callback);
     }
 
-    void Application::SetOnInput(std::function<void(u64 Down, u64 Up, u64 Held, bool Touch)> Callback)
+    void Application::SetOnInput(std::function<void(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)> Callback)
     {
         this->cbipt = Callback;
     }
 
-    u32 Application::ShowDialog(Dialog *ToShow)
+    uint32_t Application::ShowDialog(Dialog *ToShow)
     {
         return ToShow->Show(this->rend, this);
     }
@@ -86,7 +88,7 @@ namespace pu
     int Application::CreateShowDialog(std::string Title, std::string Content, std::vector<std::string> Options, bool UseLastOptionAsCancel, std::string Icon)
     {
         Dialog *dlg = new Dialog(Title, Content);
-        for(u32 i = 0; i < Options.size(); i++)
+        for(uint32_t i = 0; i < Options.size(); i++)
         {
             if(UseLastOptionAsCancel && (i == Options.size() - 1)) dlg->SetCancelOption(Options[i]);
             else dlg->AddOption(Options[i]);
@@ -104,7 +106,7 @@ namespace pu
         if(this->ovl == NULL) this->ovl = Ovl;
     }
 
-    void Application::StartOverlayWithTimeout(overlay::Overlay *Ovl, u64 Milli)
+    void Application::StartOverlayWithTimeout(overlay::Overlay *Ovl, uint64_t Milli)
     {
         if(this->ovl == NULL)
         {
@@ -162,21 +164,20 @@ namespace pu
 
     void Application::OnRender()
     {
-        hidScanInput();
-        u64 d = hidKeysDown(CONTROLLER_P1_AUTO);
-        u64 u = hidKeysUp(CONTROLLER_P1_AUTO);
-        u64 h = hidKeysHeld(CONTROLLER_P1_AUTO);
-        u64 th = hidKeysDown(CONTROLLER_HANDHELD);
+		input->ScanInput();
+		uint32_t d = input::ButtonsDown();
+		uint32_t u = input::ButtonsUp();
+		uint32_t h = input::ButtonsHeld();
         bool touch = false;
-		if (this->tch == true) touch = (th & KEY_TOUCH);
-        if(!this->thds.empty()) for(u32 i = 0; i < this->thds.size(); i++) (this->thds[i])();
+		if (this->tch == true) touch = (h & BUTTON_TOUCH);
+        if(!this->thds.empty()) for(uint32_t i = 0; i < this->thds.size(); i++) (this->thds[i])();
         this->lyt->PreRender();
         std::vector<std::function<void()>> lyth = this->lyt->GetAllThreads();
-        if(!lyth.empty()) for(u32 i = 0; i < lyth.size(); i++) (lyth[i])();
+        if(!lyth.empty()) for(uint32_t i = 0; i < lyth.size(); i++) (lyth[i])();
         if(!this->rover) (this->cbipt)(d, u, h, touch);
         if(this->hasimage) this->rend->RenderTexture(this->ntex, 0, 0);
         if(!this->rover) (this->lyt->GetOnInput())(d, u, h, touch);
-        if(this->lyt->HasChilds()) for(u32 i = 0; i < this->lyt->GetCount(); i++)
+        if(this->lyt->HasChilds()) for(uint32_t i = 0; i < this->lyt->GetCount(); i++)
         {
             element::Element *elm = this->lyt->At(i);
             if(elm->IsVisible())
@@ -191,7 +192,7 @@ namespace pu
             if(this->tmillis > 0)
             {
                 auto nclk = std::chrono::steady_clock::now();
-                u64 cctime = std::chrono::duration_cast<std::chrono::milliseconds>(nclk - this->tclock).count();
+                uint32_t cctime = std::chrono::duration_cast<std::chrono::milliseconds>(nclk - this->tclock).count();
                 if(cctime >= this->tmillis) this->ovl->NotifyEnding(true);
             }
             if(!rok) this->EndOverlay();

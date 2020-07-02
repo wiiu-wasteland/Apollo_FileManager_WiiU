@@ -12,17 +12,17 @@
 */
 
 #pragma once
-#include <switch.h>
+#include <cstdint>
 
 namespace pu::draw
 {
     struct Color
     {
         Color();
-        Color(u8 R, u8 G, u8 B, u8 A);
-        u8 R;
-        u8 G;
-        u8 B;
-        u8 A;
+        Color(uint8_t R, uint8_t G, uint8_t B, uint8_t A);
+        uint8_t R;
+        uint8_t G;
+        uint8_t B;
+        uint8_t A;
     };
 }

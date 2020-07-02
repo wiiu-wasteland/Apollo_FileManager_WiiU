@@ -8,7 +8,7 @@ namespace ui
         public:
             DeleteLayout();
             ~DeleteLayout();
-            void Start(u32 _value);
+            void Start(uint32_t _value);
             void Update(std::string _current);
 
         private:

@@ -8,7 +8,7 @@ namespace ui
         public:
             CopyLayout();
             ~CopyLayout();
-            void Start(u32 _value, bool _moveFlag);
+            void Start(uint32_t _value, bool _moveFlag);
             void Update(const std::string &_from, const std::string &_to);
             void Finish();
             void FinishUpdate(std::string _item);
@@ -17,8 +17,8 @@ namespace ui
         private:
             std::string action = "";
             std::string item = "";
-            u32 numberOfElements = 0;
-            u32 numberOfElementsDone = 0;
+            uint32_t numberOfElements = 0;
+            uint32_t numberOfElementsDone = 0;
             pu::element::TextBlock *copyTextHeader;
             pu::element::TextBlock *copyTextFrom;
             pu::element::TextBlock *copyTextTo;

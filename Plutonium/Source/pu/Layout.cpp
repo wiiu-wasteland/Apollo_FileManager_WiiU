@@ -4,7 +4,7 @@ namespace pu
 {
     Layout::Layout(bool UseFocus) : Container(0, 0, 1280, 720)
     {
-        this->onipt = [&](u64 Down, u64 Up, u64 Held, bool Touch){};
+        this->onipt = [&](uint32_t Down, uint32_t Up, uint32_t Held, bool Touch){};
         this->efocus = NULL;
         this->ufocus = UseFocus;
     }
@@ -24,12 +24,12 @@ namespace pu
         return this->efocus;
     }
 
-    void Layout::SetOnInput(std::function<void(u64 Down, u64 Up, u64 Held, bool Touch)> Callback)
+    void Layout::SetOnInput(std::function<void(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)> Callback)
     {
         this->onipt = Callback;
     }
 
-    std::function<void(u64 Down, u64 Up, u64 Held, bool Touch)> Layout::GetOnInput()
+    std::function<void(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)> Layout::GetOnInput()
     {
         return this->onipt;
     }

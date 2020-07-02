@@ -2,7 +2,7 @@
 
 namespace pu::element
 {
-    ProgressBar::ProgressBar(u32 X, u32 Y, u32 Width, u32 Height, double MaxValue) : Element::Element()
+    ProgressBar::ProgressBar(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, double MaxValue) : Element::Element()
     {
         this->x = X;
         this->y = Y;
@@ -14,42 +14,42 @@ namespace pu::element
         this->maxval = MaxValue;
     }
 
-    u32 ProgressBar::GetX()
+    uint32_t ProgressBar::GetX()
     {
         return this->x;
     }
 
-    void ProgressBar::SetX(u32 X)
+    void ProgressBar::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 ProgressBar::GetY()
+    uint32_t ProgressBar::GetY()
     {
         return this->y;
     }
 
-    void ProgressBar::SetY(u32 Y)
+    void ProgressBar::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 ProgressBar::GetWidth()
+    uint32_t ProgressBar::GetWidth()
     {
         return this->w;
     }
 
-    void ProgressBar::SetWidth(u32 Width)
+    void ProgressBar::SetWidth(uint32_t Width)
     {
         this->w = Width;
     }
 
-    u32 ProgressBar::GetHeight()
+    uint32_t ProgressBar::GetHeight()
     {
         return this->h;
     }
 
-    void ProgressBar::SetHeight(u32 Height)
+    void ProgressBar::SetHeight(uint32_t Height)
     {
         this->h = Height;
     }
@@ -125,15 +125,15 @@ namespace pu::element
 
     void ProgressBar::OnRender(render::Renderer *Drawer)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
-        u32 pcw = (u32)((this->val / this->maxval) * (double)this->w);
-        u32 rad = (this->h / 3);
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
+        uint32_t pcw = (uint32_t)((this->val / this->maxval) * (double)this->w);
+        uint32_t rad = (this->h / 3);
         Drawer->RenderRoundedRectangleFill(this->clr, rdx, rdy, this->w, this->h, rad);
         Drawer->RenderRoundedRectangleFill(this->oclr, rdx, rdy, std::max(this->h, pcw), this->h, rad);
     }
 
-    void ProgressBar::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void ProgressBar::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
     }
 }

@@ -19,18 +19,18 @@ namespace pu::overlay
     class Overlay : public Container
     {
         public:
-            Overlay(u32 X, u32 Y, u32 Width, u32 Height, draw::Color Background, bool Rounded = true);
+            Overlay(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, draw::Color Background, bool Rounded = true);
             ~Overlay();
-            void SetRadius(u32 Radius);
-            u32 GetRadius();
+            void SetRadius(uint32_t Radius);
+            uint32_t GetRadius();
             virtual void OnPreRender(render::Renderer *Drawer);
             virtual void OnPostRender(render::Renderer *Drawer);
             bool Render(render::Renderer *Drawer);
             void NotifyEnding(bool End);
         private:
-            s32 fadea;
+            int32_t fadea;
             draw::Color bg;
-            u32 rad;
+            uint32_t rad;
             bool end;
             bool round;
     };

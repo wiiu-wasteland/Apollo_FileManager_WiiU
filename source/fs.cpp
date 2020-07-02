@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <cctype>
 #include "fs.h"
 #include "app.h"
@@ -65,7 +66,7 @@ namespace fs
         return (stat(_pathname.c_str(), &buff) == 0);
     }
 
-    u32 GetSize(const std::string &_pathname)
+    uint32_t GetSize(const std::string &_pathname)
     {
         struct stat buff;
         if (S_ISDIR(buff.st_mode) == false)
@@ -340,12 +341,12 @@ namespace fs
         closedir(dir);
     }
 
-    std::pair<u32, u32> CountFilesAndDirsRecursive(const std::string &_pathname)
+    std::pair<uint32_t, uint32_t> CountFilesAndDirsRecursive(const std::string &_pathname)
     {
         DIR *dir = opendir((_pathname).c_str());
         struct dirent *ent;
-        u32 dirs = 1;
-        u32 files = 0;
+        uint32_t dirs = 1;
+        uint32_t files = 0;
 
         if (!dir)
             return std::make_pair(0, 0);
@@ -370,11 +371,11 @@ namespace fs
         return std::make_pair(dirs, files);
     }
 
-    u32 GetDirSizeRecursive(const std::string &_pathname)
+    uint32_t GetDirSizeRecursive(const std::string &_pathname)
     {
         DIR *dir = opendir((_pathname).c_str());
         struct dirent *ent;
-        u32 size = 0;
+        uint32_t size = 0;
 
         if (!dir)
             return 0;
@@ -385,7 +386,7 @@ namespace fs
             {
                 std::string p = _pathname + R"(/)" + ent->d_name;
                 struct stat buff;
-                u32 s = (stat(p.c_str(), &buff) == 0 ? buff.st_size : 0);
+                uint32_t s = (stat(p.c_str(), &buff) == 0 ? buff.st_size : 0);
                 if (S_ISDIR(buff.st_mode) == true)
                     size += GetDirSizeRecursive(p);
                 else

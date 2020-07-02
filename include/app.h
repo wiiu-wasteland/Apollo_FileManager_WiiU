@@ -45,8 +45,7 @@ class MainApplication : public pu::Application
         // previous values
         bool prehelpinfo;
         bool prebatcharg;
-        u32 prebatstatus;
-        u32 prewifistatus;
+        uint32_t prebatstatus;
         std::string pretime;
 
         /// Layout instances
@@ -61,10 +60,10 @@ class MainApplication : public pu::Application
         ui::TextLayout *textLayout;
 
         // input methods for all layouts
-        void mainLayoutInput(u64 Down, u64 Up, u64 Held);
-        void copyLayoutInput(u64 Down, u64 Up, u64 Held);
-        void deleteLayoutInput(u64 Down, u64 Up, u64 Held);
-        void textLayoutInput(u64 Down, u64 Up, u64 Held);
+        void mainLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held);
+        void copyLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held);
+        void deleteLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held);
+        void textLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held);
 
         /// Module instances
         Browser *browser;
@@ -87,7 +86,6 @@ class MainApplication : public pu::Application
         pu::element::TextBlock *clockText;
         pu::element::Image *batteryStatus;
         pu::element::Image *batteryCharging;
-        pu::element::Image *wifiStatus;
 
         // sidebar
         pu::element::Rectangle *sidebarBackground;

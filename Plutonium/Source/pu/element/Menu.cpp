@@ -4,8 +4,8 @@ namespace pu::element
 {
     MenuItem::MenuItem(std::string Name, std::string SecondName)
     {
-        this->font = render::LoadSharedFont(render::SharedFont::Standard, 25);
-		this->secondfont = render::LoadSharedFont(render::SharedFont::Standard, 20);
+        this->font = render::LoadStandardFont(25);
+		this->secondfont = render::LoadStandardFont(20);
         this->clr = { 10, 10, 10, 255 };
 		this->snclr = { 10, 10, 10, 255 };
         this->name = Name;
@@ -75,7 +75,7 @@ namespace pu::element
         this->sntex = render::RenderText(this->secondfont, this->secondname, Color);
 	}
 	
-	void MenuItem::SetNameFont(std::string Font, u32 Size)
+	void MenuItem::SetNameFont(std::string Font, uint32_t Size)
 	{
 		render::DeleteFont(this->font);
 		this->font = render::LoadFont(Font, Size);;
@@ -84,7 +84,7 @@ namespace pu::element
 		
 	}
 	
-	void MenuItem::SetSecondNameFont(std::string Font, u32 Size)
+	void MenuItem::SetSecondNameFont(std::string Font, uint32_t Size)
 	{
 		render::DeleteFont(this->secondfont);
 		this->secondfont = render::LoadFont(Font, Size);;
@@ -109,23 +109,23 @@ namespace pu::element
         this->ntex = render::RenderText(this->font, this->name, Color);
     }
 
-    void MenuItem::AddOnClick(std::function<void()> Callback, u64 Key)
+    void MenuItem::AddOnClick(std::function<void()> Callback, uint32_t Key)
     {
         this->cbs.push_back(Callback);
         this->cbipts.push_back(Key);
     }
 
-    u32 MenuItem::GetCallbackCount()
+    uint32_t MenuItem::GetCallbackCount()
     {
         return this->cbs.size();
     }
 
-    std::function<void()> MenuItem::GetCallback(u32 Index)
+    std::function<void()> MenuItem::GetCallback(uint32_t Index)
     {
         return this->cbs[Index];
     }
 
-    u64 MenuItem::GetCallbackKey(u32 Index)
+    uint32_t MenuItem::GetCallbackKey(uint32_t Index)
     {
         return this->cbipts[Index];
     }
@@ -178,7 +178,7 @@ namespace pu::element
         return this->itex;
     }
 
-    Menu::Menu(u32 X, u32 Y, u32 Width, draw::Color OptionColor, u32 ItemSize, u32 ItemsToShow) : Element::Element()
+    Menu::Menu(uint32_t X, uint32_t Y, uint32_t Width, draw::Color OptionColor, uint32_t ItemSize, uint32_t ItemsToShow) : Element::Element()
     {
         this->x = X;
         this->y = Y;
@@ -214,57 +214,57 @@ namespace pu::element
         this->ClearItems();
     }
 
-    u32 Menu::GetX()
+    uint32_t Menu::GetX()
     {
         return this->x;
     }
 
-    void Menu::SetX(u32 X)
+    void Menu::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 Menu::GetY()
+    uint32_t Menu::GetY()
     {
         return this->y;
     }
 
-    void Menu::SetY(u32 Y)
+    void Menu::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 Menu::GetWidth()
+    uint32_t Menu::GetWidth()
     {
         return this->w;
     }
 
-    void Menu::SetWidth(u32 Width)
+    void Menu::SetWidth(uint32_t Width)
     {
         this->w = Width;
     }
 
-    u32 Menu::GetHeight()
+    uint32_t Menu::GetHeight()
     {
         return (this->isize * this->ishow);
     }
 
-    u32 Menu::GetItemSize()
+    uint32_t Menu::GetItemSize()
     {
         return this->isize;
     }
 
-    void Menu::SetItemSize(u32 ItemSize)
+    void Menu::SetItemSize(uint32_t ItemSize)
     {
         this->isize = ItemSize;
     }
 
-    u32 Menu::GetNumberOfItemsToShow()
+    uint32_t Menu::GetNumberOfItemsToShow()
     {
         return this->ishow;
     }
 
-    void Menu::SetNumberOfItemsToShow(u32 ItemsToShow)
+    void Menu::SetNumberOfItemsToShow(uint32_t ItemsToShow)
     {
         this->ishow = ItemsToShow;
     }
@@ -311,7 +311,7 @@ namespace pu::element
 
     void Menu::ClearItems()
     {
-        if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++) delete this->itms[i];
+        if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++) delete this->itms[i];
         this->itms.clear();
     }
 
@@ -325,17 +325,17 @@ namespace pu::element
         return this->itms[this->isel];
     }
 
-    u32 Menu::GetSelectedIndex()
+    uint32_t Menu::GetSelectedIndex()
     {
         return this->isel;
     }
 
-	u32 Menu::GetScrollIndex()
+	uint32_t Menu::GetScrollIndex()
 	{
 		return this->fisel;
 	}
 	
-    void Menu::SetSelectedIndex(u32 Index)
+    void Menu::SetSelectedIndex(uint32_t Index)
     {
 		if (this->itms.size() > 0)
 		{
@@ -350,7 +350,7 @@ namespace pu::element
 		}
     }
 
-	void Menu::SetScrollIndex(u32 Scroll)
+	void Menu::SetScrollIndex(uint32_t Scroll)
 	{
 		if (this->itms.size() > this->ishow)
 		{
@@ -391,12 +391,12 @@ namespace pu::element
 		return this->iconOnly;
 	}
 	
-	void Menu::SetScrollbarPosition(u32 scbpos)
+	void Menu::SetScrollbarPosition(uint32_t scbpos)
 	{
 		this->scbpos = scbpos;
 	}
 	
-	void Menu::SetScrollbarWidth(u32 scbwidth)
+	void Menu::SetScrollbarWidth(uint32_t scbwidth)
 	{
 		this->scbwidth = scbwidth;
 	}
@@ -408,26 +408,26 @@ namespace pu::element
 	
     void Menu::OnRender(render::Renderer *Drawer)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
         if(!this->itms.empty())
         {
-            u32 cx = rdx;
-            u32 cy = rdy;
-            u32 cw = this->w;
-            u32 ch = this->isize;
-            u32 its = this->ishow;
+            uint32_t cx = rdx;
+            uint32_t cy = rdy;
+            uint32_t cw = this->w;
+            uint32_t ch = this->isize;
+            uint32_t its = this->ishow;
             if(its > this->itms.size()) its = this->itms.size();
-            for(u32 i = this->fisel; i < (its + this->fisel); i++)
+            for(uint32_t i = this->fisel; i < (its + this->fisel); i++)
             {
-                s32 clrr = this->clr.R;
-                s32 clrg = this->clr.G;
-                s32 clrb = this->clr.B;
-                s32 nr = clrr - 70;
+                int32_t clrr = this->clr.R;
+                int32_t clrg = this->clr.G;
+                int32_t clrb = this->clr.B;
+                int32_t nr = clrr - 70;
                 if(nr < 0) nr = 0;
-                s32 ng = clrg - 70;
+                int32_t ng = clrg - 70;
                 if(ng < 0) ng = 0;
-                s32 nb = clrb - 70;
+                int32_t nb = clrb - 70;
                 if(nb < 0) nb = 0;
                 draw::Color nclr(nr, ng, nb, this->clr.A);
                 if(this->isel == i)
@@ -452,29 +452,29 @@ namespace pu::element
                 }
                 else Drawer->RenderRectangleFill(this->clr, cx, cy, cw, ch);
                 MenuItem *itm = this->itms[i];
-                u32 xh = render::GetTextHeight(itm->GetFont(), itm->GetName());
-                u32 tx = (cx + 25);
-                u32 ty = ((ch - xh) / 2) + cy;
-				u32 sxh = render::GetTextHeight(itm->GetFont(), "0");
-				u32 sxh2 = render::GetTextHeight(itm->GetSecondFont(), "0");
-				u32 sxh3 = (sxh-sxh2 > 0) ? sxh-sxh2 : sxh2-sxh;
-				u32 stx = (double)((cw * this->snposper) + cx + 25);
-				u32 sty = ((ch - sxh) / 2) + cy + sxh3;
+                uint32_t xh = render::GetTextHeight(itm->GetFont(), itm->GetName());
+                uint32_t tx = (cx + 25);
+                uint32_t ty = ((ch - xh) / 2) + cy;
+				uint32_t sxh = render::GetTextHeight(itm->GetFont(), "0");
+				uint32_t sxh2 = render::GetTextHeight(itm->GetSecondFont(), "0");
+				uint32_t sxh3 = (sxh-sxh2 > 0) ? sxh-sxh2 : sxh2-sxh;
+				uint32_t stx = (double)((cw * this->snposper) + cx + 25);
+				uint32_t sty = ((ch - sxh) / 2) + cy + sxh3;
                 if(itm->HasIcon())
                 {
 					if (this->IsIconOnly())
 					{
-						u32 icd = (double)(this->isize - 10)*this->GetIconScale();
-						u32 icx = (cx + (cw / 2) - (icd / 2));
-						u32 icy = (cy + (ch / 2) - (icd / 2));
+						uint32_t icd = (double)(this->isize - 10)*this->GetIconScale();
+						uint32_t icx = (cx + (cw / 2) - (icd / 2));
+						uint32_t icy = (cy + (ch / 2) - (icd / 2));
 						tx = (icx + icd + 25);
 						Drawer->RenderTextureScaled(itm->GetIconTexture(), icx, icy, icd, icd);
 					}
 					else
 					{
-						u32 icd = (this->isize - 10);
-						u32 icx = (cx + 25);
-						u32 icy = (cy + 5);
+						uint32_t icd = (this->isize - 10);
+						uint32_t icx = (cx + 25);
+						uint32_t icy = (cy + 5);
 						tx = (icx + icd + 25);
 						Drawer->RenderTextureScaled(itm->GetIconTexture(), icx, icy, icd, icd);
 					}
@@ -485,20 +485,20 @@ namespace pu::element
             }
             if(this->ishow < this->itms.size())
             {
-                s32 sccr = this->scb.R;
-                s32 sccg = this->scb.G;
-                s32 sccb = this->scb.B;
-                s32 snr = sccr - 30;
+                int32_t sccr = this->scb.R;
+                int32_t sccg = this->scb.G;
+                int32_t sccb = this->scb.B;
+                int32_t snr = sccr - 30;
                 if(snr < 0) snr = 0;
-                s32 sng = sccg - 30;
+                int32_t sng = sccg - 30;
                 if(sng < 0) sng = 0;
-                s32 snb = sccb - 30;
+                int32_t snb = sccb - 30;
                 if(snb < 0) snb = 0;
                 draw::Color sclr(snr, sng, snb, this->scb.A);
-				u32 scx = 0;
-				u32 scy = rdy;	
-				u32 scw = this->scbwidth;
-				u32 sch = (this->ishow * this->isize);;
+				uint32_t scx = 0;
+				uint32_t scy = rdy;	
+				uint32_t scw = this->scbwidth;
+				uint32_t sch = (this->ishow * this->isize);;
 				switch (this->scbpos)
 				{
 					case 0:
@@ -509,8 +509,8 @@ namespace pu::element
 					break;
 				}
                 Drawer->RenderRectangleFill(this->scb, scx, scy, scw, sch);
-                u32 fch = ((this->ishow * sch) / this->itms.size());
-                u32 fcy = scy + (this->fisel * (sch / this->itms.size()));
+                uint32_t fch = ((this->ishow * sch) / this->itms.size());
+                uint32_t fcy = scy + (this->fisel * (sch / this->itms.size()));
                 Drawer->RenderRectangleFill(sclr, scx, fcy, scw, fch);
             }
 
@@ -519,25 +519,25 @@ namespace pu::element
         }
     }
 
-    void Menu::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void Menu::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
 		if (this->onFocus)
 		{
 			if(Touch)
 			{
-				touchPosition tch;
-				hidTouchRead(&tch, 0);
-				u32 cx = rdx;
-				u32 cy = rdx;
-				u32 cw = this->w;
-				u32 ch = this->isize;
-				u32 its = this->ishow;
+				uint32_t xtch, ytch;
+				input::TouchPosition(xtch, ytch);
+				uint32_t cx = rdx;
+				uint32_t cy = rdx;
+				uint32_t cw = this->w;
+				uint32_t ch = this->isize;
+				uint32_t its = this->ishow;
 				if(its > this->itms.size()) its = this->itms.size();
-				for(u32 i = this->fisel; i < (this->fisel + its); i++)
+				for(uint32_t i = this->fisel; i < (this->fisel + its); i++)
 				{
-					if(((cx + cw) > tch.px) && (tch.px > cx) && ((cy + ch) > tch.py) && (tch.py > cy))
+					if(((cx + cw) > xtch) && (xtch > cx) && ((cy + ch) > ytch) && (ytch > cy))
 					{
 						this->dtouch = true;
 						this->previsel = this->isel;
@@ -561,7 +561,7 @@ namespace pu::element
 			}
 			else
 			{
-				if(Down & KEY_DOWN)
+				if(Down & BUTTON_DOWN)
 				{
 					if(!downtime) this->downtp = std::chrono::steady_clock::now();
 					if(this->isel < (this->itms.size() - 1))
@@ -577,7 +577,7 @@ namespace pu::element
 							this->previsel = this->isel;
 							this->isel++;
 							(this->onselch)();
-							if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+							if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 							{
 								if(i == this->isel) this->selfact = 0;
 								else if(i == this->previsel) this->pselfact = 255;
@@ -589,7 +589,7 @@ namespace pu::element
 						this->isel = 0;
 						this->fisel = 0;
 						(this->onselch)();
-						if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+						if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 						{
 							if(i == this->isel) this->selfact = 0;
 							else if(i == this->previsel) this->pselfact = 255;
@@ -597,7 +597,7 @@ namespace pu::element
 					}
 					downtime = !downtime;
 				}
-				else if(Down & KEY_UP)
+				else if(Down & BUTTON_UP)
 				{
 					if(!uptime) this->uptp = std::chrono::steady_clock::now();
 					if(this->isel > 0)
@@ -613,7 +613,7 @@ namespace pu::element
 							this->previsel = this->isel;
 							this->isel--;
 							(this->onselch)();
-							if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+							if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 							{
 								if(i == this->isel) this->selfact = 0;
 								else if(i == this->previsel) this->pselfact = 255;
@@ -626,7 +626,7 @@ namespace pu::element
 						if(this->itms.size() > this->ishow) this->fisel = this->itms.size() - this->ishow;
 						else this->fisel = 0;
 						(this->onselch)();
-						if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+						if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 						{
 							if(i == this->isel) this->selfact = 0;
 							else if(i == this->previsel) this->pselfact = 255;
@@ -636,8 +636,8 @@ namespace pu::element
 				}
 				else
 				{
-					u32 ipc = this->itms[this->isel]->GetCallbackCount();
-					if(ipc > 0) for(u32 i = 0; i < ipc; i++)
+					uint32_t ipc = this->itms[this->isel]->GetCallbackCount();
+					if(ipc > 0) for(uint32_t i = 0; i < ipc; i++)
 					{
 						if(Down & this->itms[this->isel]->GetCallbackKey(i))
 						{
@@ -649,7 +649,7 @@ namespace pu::element
 				auto curtp = std::chrono::steady_clock::now();
 				if(downtime && !downhold)
 				{
-					u64 downdiff = std::chrono::duration_cast<std::chrono::milliseconds>(curtp - this->downtp).count();
+					uint64_t downdiff = std::chrono::duration_cast<std::chrono::milliseconds>(curtp - this->downtp).count();
 					if(downdiff >= 500)
 					{
 						downhold = true;
@@ -657,7 +657,7 @@ namespace pu::element
 				}
 				else if(downhold)
 				{
-					if(Held & KEY_DOWN)
+					if(Held & BUTTON_DOWN)
 					{
 						if(this->isel < (this->itms.size() - 1))
 						{
@@ -672,7 +672,7 @@ namespace pu::element
 								this->previsel = this->isel;
 								this->isel++;
 								(this->onselch)();
-								if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+								if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 								{
 									if(i == this->isel) this->selfact = 0;
 									else if(i == this->previsel) this->pselfact = 255;
@@ -684,7 +684,7 @@ namespace pu::element
 							this->isel = 0;
 							this->fisel = 0;
 							(this->onselch)();
-							if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+							if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 							{
 								if(i == this->isel) this->selfact = 0;
 								else if(i == this->previsel) this->pselfact = 255;
@@ -699,7 +699,7 @@ namespace pu::element
 				}
 				if(uptime && !uphold)
 				{
-					u64 updiff = std::chrono::duration_cast<std::chrono::milliseconds>(curtp - this->uptp).count();
+					uint64_t updiff = std::chrono::duration_cast<std::chrono::milliseconds>(curtp - this->uptp).count();
 					if(updiff >= 500)
 					{
 						uphold = true;
@@ -707,7 +707,7 @@ namespace pu::element
 				}
 				else if(uphold)
 				{
-					if(Held & KEY_UP)
+					if(Held & BUTTON_UP)
 					{
 						if(this->isel > 0)
 						{
@@ -722,7 +722,7 @@ namespace pu::element
 								this->previsel = this->isel;
 								this->isel--;
 								(this->onselch)();
-								if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+								if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 								{
 									if(i == this->isel) this->selfact = 0;
 									else if(i == this->previsel) this->pselfact = 255;
@@ -735,7 +735,7 @@ namespace pu::element
 							if(this->itms.size() > this->ishow) this->fisel = this->itms.size() - this->ishow;
 							else this->fisel = 0;
 							(this->onselch)();
-							if(!this->itms.empty()) for(u32 i = 0; i < this->itms.size(); i++)
+							if(!this->itms.empty()) for(uint32_t i = 0; i < this->itms.size(); i++)
 							{
 								if(i == this->isel) this->selfact = 0;
 								else if(i == this->previsel) this->pselfact = 255;

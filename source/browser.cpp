@@ -45,8 +45,8 @@ void Browser::Open()
 
         case 1:
         {
-            u32 index = app->GetMainLayout()->GetSelectedIndex();
-            u32 scroll = app->GetMainLayout()->GetScrollIndex();
+            uint32_t index = app->GetMainLayout()->GetSelectedIndex();
+            uint32_t scroll = app->GetMainLayout()->GetScrollIndex();
             this->lastCursorPosition.push_back(index);
             this->lastScrollPosition.push_back(scroll);
             this->LoadFiles(this->GetFilePathName());
@@ -88,8 +88,8 @@ void Browser::OpenFile()
 
 void Browser::Refresh()
 {
-    u32 index = app->GetMainLayout()->GetSelectedIndex();
-    u32 scroll = app->GetMainLayout()->GetScrollIndex();
+    uint32_t index = app->GetMainLayout()->GetSelectedIndex();
+    uint32_t scroll = app->GetMainLayout()->GetScrollIndex();
     this->LoadFiles(this->currentPath);
     app->GetMainLayout()->SetCursorPosition(index, scroll);
 }
@@ -112,7 +112,7 @@ void Browser::NavigateBack()
 void Browser::SelectFile()
 {
     // Select or unselect if already selected
-    u32 index = app->GetMainLayout()->GetSelectedIndex();
+    uint32_t index = app->GetMainLayout()->GetSelectedIndex();
     this->currentFiles.at(index).selected = !this->currentFiles.at(index).selected;
 
     switch (this->currentFiles.at(index).selected)
@@ -157,7 +157,7 @@ void Browser::RemoveFiles()
 
     if (this->GetNumberOfSelected() > 1)
     {
-        u32 number = 0;
+        uint32_t number = 0;
         for (auto &f : this->currentFiles)
         {
             if (f.selected == true)
@@ -246,7 +246,7 @@ void Browser::PasteFiles()
     if (clipboard.at(0).base == this->currentPath)
         return;
 
-    u32 number = 0;
+    uint32_t number = 0;
     for (auto &f : this->clipboard)
     {
         // Check if the destined folder is the subfolder of the source folder
@@ -284,12 +284,12 @@ void Browser::ChangeSortType(SortType _sorttype)
     this->Refresh();
 }
 
-u32 Browser::GetNumberOfSelected()
+uint32_t Browser::GetNumberOfSelected()
 {
     return this->numberOfSelected;
 }
 
-u32 Browser::GetClipboardSize()
+uint32_t Browser::GetClipboardSize()
 {
     return this->clipboard.size();
 }
@@ -336,9 +336,9 @@ std::string Browser::GetFileExtension()
     return currentfile.substr(currentfile.find_last_of(".") + 1);
 }
 
-u32 Browser::GetFilesSize()
+uint32_t Browser::GetFilesSize()
 {
-    u32 allsize = 0;
+    uint32_t allsize = 0;
     if (this->GetNumberOfSelected() == 0)
     {
         if (this->GetFileType() == 1)
@@ -371,10 +371,10 @@ bool Browser::GetFileType()
         return this->firstSelected.type;
 }
 
-std::pair<u32, u32> Browser::CountMultipleFilesType()
+std::pair<uint32_t, uint32_t> Browser::CountMultipleFilesType()
 {
-    u32 files = 0;
-    u32 dirs = 0;
+    uint32_t files = 0;
+    uint32_t dirs = 0;
     if (this->GetNumberOfSelected() == 0)
     {
         if (this->GetFileType() == 1)

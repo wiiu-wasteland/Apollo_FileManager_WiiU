@@ -25,7 +25,7 @@ namespace ui
         delete this->deleteProgressBar;
     }
 
-    void DeleteLayout::Start(u32 _value)
+    void DeleteLayout::Start(uint32_t _value)
     {
         if (_value > 1)
             this->deleteTextHeader->SetText("Deleting " + std::to_string(_value) + " items...");

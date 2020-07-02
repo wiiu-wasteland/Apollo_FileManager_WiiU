@@ -19,7 +19,7 @@ namespace pu::overlay
     class Toast : public Overlay
     {
         public:
-            Toast(std::string Text, u32 FontSize, draw::Color TextColor, draw::Color BaseColor);
+            Toast(std::string Text, uint32_t FontSize, draw::Color TextColor, draw::Color BaseColor);
             void SetText(std::string Text);
             void OnPreRender(render::Renderer *Drawer);
             void OnPostRender(render::Renderer *Drawer);

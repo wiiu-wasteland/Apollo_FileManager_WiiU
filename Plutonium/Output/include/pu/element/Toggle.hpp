@@ -13,40 +13,41 @@
 
 #pragma once
 #include <pu/element/Element.hpp>
+#include <pu/input.hpp>
 
 namespace pu::element
 {
     class Toggle : public Element
     {
         public:
-            Toggle(u32 X, u32 Y, std::string Content, u64 Key, draw::Color Color);
+            Toggle(uint32_t X, uint32_t Y, std::string Content, uint32_t Key, draw::Color Color);
             ~Toggle();
-            u32 GetX();
-            void SetX(u32 X);
-            u32 GetY();
-            void SetY(u32 Y);
-            u32 GetWidth();
-            u32 GetHeight();
+            uint32_t GetX();
+            void SetX(uint32_t X);
+            uint32_t GetY();
+            void SetY(uint32_t Y);
+            uint32_t GetWidth();
+            uint32_t GetHeight();
             std::string GetContent();
             void SetContent(std::string Content);
             void SetFont(render::NativeFont Font);
             draw::Color GetColor();
             void SetColor(draw::Color General);
-            u64 GetKey();
-            void SetKey(u64 Key);
+            uint32_t GetKey();
+            void SetKey(uint32_t Key);
             bool IsChecked();
             void OnRender(render::Renderer *Drawer);
-            void OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus);
+            void OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus);
         private:
             std::string cnt;
-            u32 x;
-            u32 y;
-            u64 key;
+            uint32_t x;
+            uint32_t y;
+            uint32_t key;
             bool checked;
             draw::Color clr;
             render::NativeFont fnt;
-            u32 fsize;
-            s32 togfact;
+            uint32_t fsize;
+            int32_t togfact;
             render::NativeTexture ntex;
     };
 }

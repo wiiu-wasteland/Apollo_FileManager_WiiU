@@ -9,18 +9,11 @@ MainApplication *app;
 
 int Initialize()
 {
-    void *addr = NULL;
-    if (sys::IsNRO() == 0)
-        svcSetHeapSize(&addr, 0x10000000);
-    if (R_FAILED(psmInitialize()))  return 1;
-    if (R_FAILED(nifmInitialize())) return 1;
     return 0;
 }
 
 void Finalize()
 {
-    psmExit();
-    nifmExit();
 }
 
 void MainApplication::SetDebugText(std::string _text)
@@ -74,25 +67,21 @@ void MainApplication::Update()
         this->pretime = time;
     }
 
-    u32 battery = sys::GetBatteryLevel() / 10;
+    uint32_t battery;
+	bool isbatterycharging;
+	
+    sys::GetBatteryStatus(battery, isbatterycharging);
+
     if (battery != this->prebatstatus)
     {
         this->batteryStatus->SetImage(GetRomFsResource(std::to_string(battery), "Battery"));
         this->prebatstatus = battery;
     }
 
-    bool isbatterycharging = sys::IsBatteryCharging();
     if (isbatterycharging != this->prebatcharg)
     {
         this->batteryCharging->SetVisible(isbatterycharging);
         this->prebatcharg = isbatterycharging;
-    }
-
-    u32 wifi = sys::GetWiFiConnectionSignal();
-    if (wifi != this->prewifistatus)
-    {
-        this->wifiStatus->SetImage(GetRomFsResource(std::to_string(wifi), "WiFi"));
-        this->prewifistatus = wifi;
     }
 
     if (this->prehelpinfo != this->helpinfo)
@@ -131,51 +120,51 @@ ui::TextLayout *MainApplication::GetTextLayout()
     return this->textLayout;
 }
 
-void MainApplication::mainLayoutInput(u64 Down, u64 Up, u64 Held)
+void MainApplication::mainLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held)
 {
-    if (Down & KEY_MINUS)           this->ExitAction();
-    if (Down & KEY_PLUS)            this->InfoAction();
-    if (Down & KEY_B)               this->NavigateBackAction();
-    if (Down & KEY_X)               this->RenameAction();
-    if (Down & KEY_Y)               this->SelectAction();
-    if (Down & KEY_L)               this->CopyAction();
-    if (Down & KEY_R)               this->PasteAction();
-    if (Down & KEY_ZL)              this->MoveAction();
-    if (Down & KEY_ZR)              this->DeleteAction();
-    if (Down & KEY_LSTICK)          this->SortAction();
-    if (Down & KEY_RSTICK)          this->HelpAction();
-    if (Down & KEY_LSTICK_LEFT) // focus on sidebar
+    if (Down & BUTTON_MINUS)           this->ExitAction();
+    if (Down & BUTTON_PLUS)            this->InfoAction();
+    if (Down & BUTTON_B)               this->NavigateBackAction();
+    if (Down & BUTTON_X)               this->RenameAction();
+    if (Down & BUTTON_Y)               this->SelectAction();
+    if (Down & BUTTON_L)               this->CopyAction();
+    if (Down & BUTTON_R)               this->PasteAction();
+    if (Down & BUTTON_ZL)              this->MoveAction();
+    if (Down & BUTTON_ZR)              this->DeleteAction();
+    if (Down & BUTTON_LSTICK)          this->SortAction();
+    if (Down & BUTTON_RSTICK)          this->HelpAction();
+    if (Down & BUTTON_LSTICK_LEFT) // focus on sidebar
     {
         this->sidebarMenu->SetOnFocus(true);
         this->GetMainLayout()->SetOnFocus(false);
     }
-    if (Down & KEY_LSTICK_RIGHT) // focus on main layout
+    if (Down & BUTTON_LSTICK_RIGHT) // focus on main layout
     {
         this->sidebarMenu->SetOnFocus(false);
         this->GetMainLayout()->SetOnFocus(true);
     }
 }
 
-void MainApplication::copyLayoutInput(u64 Down, u64 Up, u64 Held)
+void MainApplication::copyLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held)
 {
 
 }
 
-void MainApplication::deleteLayoutInput(u64 Down, u64 Up, u64 Held)
+void MainApplication::deleteLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held)
 {
 
 }
 
-void MainApplication::textLayoutInput(u64 Down, u64 Up, u64 Held)
+void MainApplication::textLayoutInput(uint64_t Down, uint64_t Up, uint64_t Held)
 {
-    if (Down & KEY_MINUS)           this->ExitAction();
-    if (Down & KEY_B)               this->GetTextLayout()->End();
-    if (Down & KEY_LSTICK_UP ||
-        Held & KEY_RSTICK_UP ||
-        Down & KEY_DUP)             this->GetTextLayout()->ScrollUp();
-    if (Down & KEY_LSTICK_DOWN ||
-        Held & KEY_RSTICK_DOWN ||
-        Down & KEY_DDOWN)           this->GetTextLayout()->ScrollDown();
+    if (Down & BUTTON_MINUS)           this->ExitAction();
+    if (Down & BUTTON_B)               this->GetTextLayout()->End();
+    if (Down & BUTTON_LSTICK_UP ||
+        Held & BUTTON_RSTICK_UP ||
+        Down & BUTTON_DUP)             this->GetTextLayout()->ScrollUp();
+    if (Down & BUTTON_LSTICK_DOWN ||
+        Held & BUTTON_RSTICK_DOWN ||
+        Down & BUTTON_DDOWN)           this->GetTextLayout()->ScrollDown();
 }
 
 
@@ -194,7 +183,6 @@ void MainApplication::InitAllLayouts()
     this->prebatcharg = false;
     this->prebatstatus = 0;
     this->pretime = "00:00:00";
-    this->prewifistatus = -1;
 
     /// Layouts
     this->mainLayout = new ui::MainLayout();
@@ -222,7 +210,7 @@ void MainApplication::InitAllLayouts()
     allElements.push_back(this->footerLine);
 
     // status bar
-    this->clockText = new pu::element::TextBlock(984, 53, sys::GetCurrentTime());
+	this->clockText = new pu::element::TextBlock(1039, 53, sys::GetCurrentTime());
     this->clockText->SetColor({10, 10, 10, 255}); // black
     allElements.push_back(this->clockText);
     this->batteryStatus = new pu::element::Image(1181, 55, GetRomFsResource("10", "Battery"));
@@ -231,8 +219,6 @@ void MainApplication::InitAllLayouts()
     allElements.push_back(this->batteryCharging);
     this->batteryCharging->SetVisible(false);
     allElements.push_back(this->batteryCharging);
-    this->wifiStatus = new pu::element::Image(1126, 55, GetRomFsResource("3", "WiFi"));
-    allElements.push_back(this->wifiStatus);
 
     // sidebar
     this->sidebarBackground = new pu::element::Rectangle(0, 0, 116, 720, {45, 45, 54, 255});
@@ -255,44 +241,44 @@ void MainApplication::InitAllLayouts()
 
     this->copyButton = new pu::element::MenuItem("");
     this->copyButton->SetIcon(GetRomFsResource("copy"));
-    this->copyButton->AddOnClick(std::bind(&MainApplication::CopyAction, this), KEY_A);
+    this->copyButton->AddOnClick(std::bind(&MainApplication::CopyAction, this), BUTTON_A);
     this->sidebarMenu->AddItem(copyButton);
     allMenuItems.push_back(this->copyButton);
 
     this->pasteButton = new pu::element::MenuItem("");
     this->pasteButton->SetIcon(GetRomFsResource("paste"));
-    this->pasteButton->AddOnClick(std::bind(&MainApplication::PasteAction, this), KEY_A);
+    this->pasteButton->AddOnClick(std::bind(&MainApplication::PasteAction, this), BUTTON_A);
     this->sidebarMenu->AddItem(pasteButton);
     allMenuItems.push_back(this->pasteButton);
 
     this->deleteButton = new pu::element::MenuItem("");
     this->deleteButton->SetIcon(GetRomFsResource("delete"));
-    this->deleteButton->AddOnClick(std::bind(&MainApplication::DeleteAction, this), KEY_A);
+    this->deleteButton->AddOnClick(std::bind(&MainApplication::DeleteAction, this), BUTTON_A);
     this->sidebarMenu->AddItem(deleteButton);
     allMenuItems.push_back(this->deleteButton);
 
     this->renameButton = new pu::element::MenuItem("");
     this->renameButton->SetIcon(GetRomFsResource("rename"));
-    this->renameButton->AddOnClick(std::bind(&MainApplication::RenameAction, this), KEY_A);
+    this->renameButton->AddOnClick(std::bind(&MainApplication::RenameAction, this), BUTTON_A);
     this->sidebarMenu->AddItem(renameButton);
     allMenuItems.push_back(this->renameButton);
 
     this->exitButton = new pu::element::MenuItem("");
     this->exitButton->SetIcon(GetRomFsResource("exit"));
-    this->exitButton->AddOnClick(std::bind(&MainApplication::ExitAction, this), KEY_A); // to do: exit action
+    this->exitButton->AddOnClick(std::bind(&MainApplication::ExitAction, this), BUTTON_A); // to do: exit action
     this->sidebarMenu->AddItem(exitButton);
     allMenuItems.push_back(this->exitButton);
 
     // buttons
     int btnSize = 25;
-    u32 btnFntSize = 23;
-    u32 btnAx = 1073;
-    u32 btnAy = 652;
-    u32 btnAx_img = 1088;
+    uint32_t btnFntSize = 23;
+    uint32_t btnAx = 1073;
+    uint32_t btnAy = 652;
+    uint32_t btnAx_img = 1088;
     int btnYx_img_fix = -6;
-    u32 btnh = 65;
-    u32 btnw = 130;
-    u32 btny = btnAy + (btnh/2) - (btnSize/2) - 2;
+    uint32_t btnh = 65;
+    uint32_t btnw = 130;
+    uint32_t btny = btnAy + (btnh/2) - (btnSize/2) - 2;
 
     this->button_A = new pu::element::Button(btnAx, btnAy, btnw, btnh, "    Open", {0, 0, 0, 0}, {0, 0, 0, 0}, btnFntSize);
     allElements.push_back(this->button_A);
@@ -423,7 +409,7 @@ void MainApplication::InfoAction()
     {
         if (this->GetBrowser()->GetNumberOfSelected() > 1)
         {
-            u32 s  = this->GetBrowser()->GetFilesSize();
+            uint32_t s  = this->GetBrowser()->GetFilesSize();
             auto [nodirs, nofiles] = this->GetBrowser()->CountMultipleFilesType();
             std::string name = "Multiple files\n";
             std::string path = "\nPath: " + WrapText(this->GetBrowser()->GetFilePath(), 80);
@@ -434,7 +420,7 @@ void MainApplication::InfoAction()
         else
         {
             bool t = this->GetBrowser()->GetFileType();
-            u32 s  = this->GetBrowser()->GetFilesSize();
+            uint32_t s  = this->GetBrowser()->GetFilesSize();
             auto [nodirs, nofiles] = this->GetBrowser()->CountMultipleFilesType();
             std::string name = "Name: " + WrapText(this->GetBrowser()->GetFileName(), 80);
             std::string path = "\nPath: " + WrapText(this->GetBrowser()->GetFilePath(), 80);

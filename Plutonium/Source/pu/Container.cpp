@@ -2,7 +2,7 @@
 
 namespace pu
 {
-    Container::Container(u32 X, u32 Y, u32 Width, u32 Height)
+    Container::Container(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height)
     {
         this->x = X;
         this->y = Y;
@@ -15,7 +15,7 @@ namespace pu
         this->elms.push_back(Elm);
     }
 
-    element::Element *Container::At(u32 Index)
+    element::Element *Container::At(uint32_t Index)
     {
         if(Index < this->elms.size()) return this->elms[Index];
         return NULL;
@@ -23,7 +23,7 @@ namespace pu
 
     bool Container::Has(element::Element *Elm)
     {
-        if(!this->elms.empty()) for(u32 i = 0; i < this->elms.size(); i++)
+        if(!this->elms.empty()) for(uint32_t i = 0; i < this->elms.size(); i++)
         {
             if(this->elms[i] == Elm) return true;
         }
@@ -32,58 +32,58 @@ namespace pu
 
     void Container::Clear()
     {
-        if(!this->elms.empty()) for(u32 i = 0; i < this->elms.size(); i++) delete this->elms[i];
+        if(!this->elms.empty()) for(uint32_t i = 0; i < this->elms.size(); i++) delete this->elms[i];
         this->elms.clear();
     }
 
-    u32 Container::GetCount()
+    uint32_t Container::GetCount()
     {
         return this->elms.size();
     }
 
-    void Container::SetX(u32 X)
+    void Container::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 Container::GetX()
+    uint32_t Container::GetX()
     {
         return this->x;
     }
 
-    void Container::SetY(u32 Y)
+    void Container::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 Container::GetY()
+    uint32_t Container::GetY()
     {
         return this->y;
     }
 
-    void Container::SetWidth(u32 Width)
+    void Container::SetWidth(uint32_t Width)
     {
         this->w = Width;
     }
 
-    u32 Container::GetWidth()
+    uint32_t Container::GetWidth()
     {
         return this->w;
     }
 
-    void Container::SetHeight(u32 Height)
+    void Container::SetHeight(uint32_t Height)
     {
         this->h = Height;
     }
 
-    u32 Container::GetHeight()
+    uint32_t Container::GetHeight()
     {
         return this->h;
     }
 
     void Container::PreRender()
     {
-        if(!this->elms.empty()) for(u32 i = 0; i < this->elms.size(); i++)
+        if(!this->elms.empty()) for(uint32_t i = 0; i < this->elms.size(); i++)
         {
             this->elms[i]->SetParent(this);
         }

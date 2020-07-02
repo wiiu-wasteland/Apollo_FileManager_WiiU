@@ -20,42 +20,42 @@ namespace pu::element
     {
     }
 
-    void Element::ProcessInput(void *Lyt, u64 Down, u64 Up, u64 Held, bool Touch)
+    void Element::ProcessInput(void *Lyt, uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)
     {
         Layout *lyt = (Layout*)Lyt;
         if(lyt->UsesFocus() && this->afocus)
         {
-            u64 KEY_DPAD = (KEY_DUP | KEY_DDOWN | KEY_DLEFT | KEY_DRIGHT);
-            u64 KEY_PLSTICK = (KEY_LSTICK_UP | KEY_LSTICK_DOWN | KEY_LSTICK_LEFT | KEY_LSTICK_RIGHT);
-            u64 KEY_PRSTICK = (KEY_RSTICK_UP | KEY_RSTICK_DOWN | KEY_RSTICK_LEFT | KEY_RSTICK_RIGHT);
+            uint32_t BUTTON_DPAD = (BUTTON_DUP | BUTTON_DDOWN | BUTTON_DLEFT | BUTTON_DRIGHT);
+            uint32_t BUTTON_PLSTICK = (BUTTON_LSTICK_UP | BUTTON_LSTICK_DOWN | BUTTON_LSTICK_LEFT | BUTTON_LSTICK_RIGHT);
+            uint32_t BUTTON_PRSTICK = (BUTTON_RSTICK_UP | BUTTON_RSTICK_DOWN | BUTTON_RSTICK_LEFT | BUTTON_RSTICK_RIGHT);
             bool onfocus = (lyt->GetElementOnFocus() == this);
             bool thistouch = false;
             if(Touch)
             {
-                touchPosition tch;
-                hidTouchRead(&tch, 0);
-                thistouch = (((this->GetX() + this->GetWidth()) > tch.px) && (tch.px > this->GetX()) && ((this->GetY() + this->GetHeight()) > tch.py) && (tch.py > this->GetY()));
+				uint32_t xtch, ytch;
+				input::TouchPosition(xtch, ytch);
+				thistouch = (((this->GetX() + this->GetWidth()) > xtch) && (xtch > this->GetX()) && ((this->GetY() + this->GetHeight()) > ytch) && (ytch > this->GetY()));
                 if(thistouch)
                 {
                     lyt->SetElementOnFocus(this);
                     this->OnInput(Down, Up, Held, thistouch, onfocus);
                 }
             }
-            else if((Down & KEY_PRSTICK) && onfocus)
+            else if((Down & BUTTON_PRSTICK) && onfocus)
             {
-                if(Down & KEY_RSTICK_UP)
+                if(Down & BUTTON_RSTICK_UP)
                 {
                     if(this->fup != NULL) lyt->SetElementOnFocus(this->fup);
                 }
-                else if(Down & KEY_RSTICK_DOWN)
+                else if(Down & BUTTON_RSTICK_DOWN)
                 {
                     if(this->fdown != NULL) lyt->SetElementOnFocus(this->fdown);
                 }
-                else if(Down & KEY_RSTICK_LEFT)
+                else if(Down & BUTTON_RSTICK_LEFT)
                 {
                     if(this->fleft != NULL) lyt->SetElementOnFocus(this->fleft);
                 }
-                else if(Down & KEY_RSTICK_RIGHT)
+                else if(Down & BUTTON_RSTICK_RIGHT)
                 {
                     if(this->fright != NULL) lyt->SetElementOnFocus(this->fright);
                 }
@@ -160,9 +160,9 @@ namespace pu::element
         return (this->parent != NULL);
     }
 
-    u32 Element::GetProcessedX()
+    uint32_t Element::GetProcessedX()
     {
-        u32 rx = this->GetX();
+        uint32_t rx = this->GetX();
         if(this->parent != NULL)
         {
             Container *cont = (Container*)this->parent;
@@ -182,9 +182,9 @@ namespace pu::element
         return rx;
     }
 
-    u32 Element::GetProcessedY()
+    uint32_t Element::GetProcessedY()
     {
-        u32 ry = this->GetY();
+        uint32_t ry = this->GetY();
         if(this->parent != NULL)
         {
             Container *cont = (Container*)this->parent;

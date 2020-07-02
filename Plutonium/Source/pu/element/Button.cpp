@@ -2,7 +2,7 @@
 
 namespace pu::element
 {
-    Button::Button(u32 X, u32 Y, u32 Width, u32 Height, std::string Content, draw::Color TextColor, draw::Color Color, u32 fontSize) : Element::Element()
+    Button::Button(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, std::string Content, draw::Color TextColor, draw::Color Color, uint32_t fontSize) : Element::Element()
     {
         this->x = X;
         this->y = Y;
@@ -12,7 +12,7 @@ namespace pu::element
         this->clr = Color;
         this->hover = false;
         this->hoverfact = 255;
-        this->fnt = render::LoadSharedFont(render::SharedFont::Standard, fontSize);
+        this->fnt = render::LoadStandardFont(fontSize);
         this->ntex = render::RenderText(this->fnt, Content, TextColor);
         this->clickcb = [](){};
     }
@@ -31,42 +31,42 @@ namespace pu::element
         }
     }
 
-    u32 Button::GetX()
+    uint32_t Button::GetX()
     {
         return this->x;
     }
 
-    void Button::SetX(u32 X)
+    void Button::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 Button::GetY()
+    uint32_t Button::GetY()
     {
         return this->y;
     }
 
-    void Button::SetY(u32 Y)
+    void Button::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 Button::GetWidth()
+    uint32_t Button::GetWidth()
     {
         return this->w;
     }
 
-    void Button::SetWidth(u32 Width)
+    void Button::SetWidth(uint32_t Width)
     {
         this->w = Width;
     }
 
-    u32 Button::GetHeight()
+    uint32_t Button::GetHeight()
     {
         return this->h;
     }
 
-    void Button::SetHeight(u32 Height)
+    void Button::SetHeight(uint32_t Height)
     {
         this->h = Height;
     }
@@ -110,16 +110,16 @@ namespace pu::element
 
     void Button::OnRender(render::Renderer *Drawer)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
-        s32 clrr = this->clr.R;
-        s32 clrg = this->clr.G;
-        s32 clrb = this->clr.B;
-        s32 nr = clrr - 70;
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
+        int32_t clrr = this->clr.R;
+        int32_t clrg = this->clr.G;
+        int32_t clrb = this->clr.B;
+        int32_t nr = clrr - 70;
         if(nr < 0) nr = 0;
-        s32 ng = clrg - 70;
+        int32_t ng = clrg - 70;
         if(ng < 0) ng = 0;
-        s32 nb = clrb - 70;
+        int32_t nb = clrb - 70;
         if(nb < 0) nb = 0;
         draw::Color nclr(nr, ng, nb, this->clr.A);
         if(this->hover)
@@ -142,14 +142,14 @@ namespace pu::element
             }
             else Drawer->RenderRectangleFill(this->clr, rdx, rdy, this->w, this->h);
         }
-        u32 xw = render::GetTextWidth(this->fnt, this->cnt);
-        u32 xh = render::GetTextHeight(this->fnt, this->cnt);
-        u32 tx = ((this->w - xw) / 2) + rdx;
-        u32 ty = ((this->h - xh) / 2) + rdy;
+        uint32_t xw = render::GetTextWidth(this->fnt, this->cnt);
+        uint32_t xh = render::GetTextHeight(this->fnt, this->cnt);
+        uint32_t tx = ((this->w - xw) / 2) + rdx;
+        uint32_t ty = ((this->h - xh) / 2) + rdy;
         Drawer->RenderTexture(this->ntex, tx, ty);
     }
 
-    void Button::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void Button::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
         if(this->hover)
         {

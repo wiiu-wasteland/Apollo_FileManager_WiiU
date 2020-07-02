@@ -23,15 +23,15 @@ namespace pu
             bool HasChilds();
             void SetElementOnFocus(element::Element *OnFocus);
             element::Element *GetElementOnFocus();
-            void SetOnInput(std::function<void(u64 Down, u64 Up, u64 Held, bool Touch)> Callback);
-            std::function<void(u64 Down, u64 Up, u64 Held, bool Touch)> GetOnInput();
+            void SetOnInput(std::function<void(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)> Callback);
+            std::function<void(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch)> GetOnInput();
             void AddThread(std::function<void()> Callback);
             std::vector<std::function<void()>> GetAllThreads();
             bool UsesFocus();
             void SetUseFocus(bool Focus);
         private:
             bool ufocus;
-            std::function<void(u64, u64, u64, bool)> onipt;
+            std::function<void(uint32_t, uint32_t, uint32_t, bool)> onipt;
             std::vector<std::function<void()>> thds;
             element::Element *efocus;
     };

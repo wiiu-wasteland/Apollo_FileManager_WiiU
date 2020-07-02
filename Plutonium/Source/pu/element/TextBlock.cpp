@@ -2,13 +2,13 @@
 
 namespace pu::element
 {
-    TextBlock::TextBlock(u32 X, u32 Y, std::string Text, u32 FontSize) : Element::Element()
+    TextBlock::TextBlock(uint32_t X, uint32_t Y, std::string Text, uint32_t FontSize) : Element::Element()
     {
         this->x = X;
         this->y = Y;
         this->text = Text;
         this->clr = { 0, 0, 0, 255 };
-        this->fnt = render::LoadSharedFont(render::SharedFont::Standard, FontSize);
+        this->fnt = render::LoadStandardFont(FontSize);
         this->fsize = FontSize;
         this->ntex = render::RenderText(this->fnt, Text, this->clr);
     }
@@ -27,42 +27,42 @@ namespace pu::element
         }
     }
 
-    u32 TextBlock::GetX()
+    uint32_t TextBlock::GetX()
     {
         return this->x;
     }
 
-    void TextBlock::SetX(u32 X)
+    void TextBlock::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 TextBlock::GetY()
+    uint32_t TextBlock::GetY()
     {
         return this->y;
     }
 
-    void TextBlock::SetY(u32 Y)
+    void TextBlock::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 TextBlock::GetWidth()
+    uint32_t TextBlock::GetWidth()
     {
         return this->GetTextWidth();
     }
 
-    u32 TextBlock::GetHeight()
+    uint32_t TextBlock::GetHeight()
     {
         return this->GetTextHeight();
     }
 
-    u32 TextBlock::GetTextWidth()
+    uint32_t TextBlock::GetTextWidth()
     {
         return render::GetTextWidth(this->fnt, this->text);
     }
 
-    u32 TextBlock::GetTextHeight()
+    uint32_t TextBlock::GetTextHeight()
     {
         return render::GetTextHeight(this->fnt, this->text);
     }
@@ -87,7 +87,7 @@ namespace pu::element
         this->ntex = render::RenderText(Font, this->text, this->clr);
     }
 	
-	void TextBlock::SetFont(std::string Font, u32 Size)
+	void TextBlock::SetFont(std::string Font, uint32_t Size)
 	{
 		render::DeleteFont(this->fnt);
 		this->fnt = render::LoadFont(Font, Size);;
@@ -109,12 +109,12 @@ namespace pu::element
 
     void TextBlock::OnRender(render::Renderer *Drawer)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
         Drawer->RenderTexture(this->ntex, rdx, rdy);
     }
 
-    void TextBlock::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void TextBlock::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
     }
 }

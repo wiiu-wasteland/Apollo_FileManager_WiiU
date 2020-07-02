@@ -19,31 +19,31 @@ namespace pu::element
     class Rectangle : public Element
     {
         public:
-            Rectangle(u32 X, u32 Y, u32 Width, u32 Height, draw::Color RecColor, u32 BorderRadius = 0);
-            u32 GetX();
-            void SetX(u32 X);
-            u32 GetY();
-            void SetY(u32 Y);
-            u32 GetWidth();
-            void SetWidth(u32 Width);
-            u32 GetHeight();
-            void SetHeight(u32 Height);
-            u32 GetBorderRadius();
-            void SetBorderRadius(u32 Radius);
+            Rectangle(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, draw::Color RecColor, uint32_t BorderRadius = 0);
+            uint32_t GetX();
+            void SetX(uint32_t X);
+            uint32_t GetY();
+            void SetY(uint32_t Y);
+            uint32_t GetWidth();
+            void SetWidth(uint32_t Width);
+            uint32_t GetHeight();
+            void SetHeight(uint32_t Height);
+            uint32_t GetBorderRadius();
+            void SetBorderRadius(uint32_t Radius);
             draw::Color GetColor();
             void SetColor(draw::Color RecColor);
-			void SetDrawSideShadow(bool drawSideShadow, u32 sideShadowWidth = 5, u32 sideShadowMainAlpha = 160);
+			void SetDrawSideShadow(bool drawSideShadow, uint32_t sideShadowWidth = 5, uint32_t sideShadowMainAlpha = 160);
             void OnRender(render::Renderer *Drawer);
-            void OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus);
+            void OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus);
         private:
-            u32 borderr;
-            u32 x;
-            u32 y;
-            u32 w;
-            u32 h;
+            uint32_t borderr;
+            uint32_t x;
+            uint32_t y;
+            uint32_t w;
+            uint32_t h;
             draw::Color clr;
 			bool drawSideShadow;
-			u32 sideShadowWidth;
-			u32 sideShadowMainAlpha;
+			uint32_t sideShadowWidth;
+			uint32_t sideShadowMainAlpha;
     };
 }

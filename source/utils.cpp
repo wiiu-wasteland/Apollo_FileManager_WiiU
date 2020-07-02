@@ -1,4 +1,5 @@
 #include <string>
+#include <vpad/input.h>
 #include "utils.h"
 #include "app.h"
 #include "fs.h"
@@ -135,7 +136,7 @@ bool CompareSizesReversed(File _f, File _g)
     return (_f.size > _g.size);
 }
 
-std::string FormatSize(u32 _size)
+std::string FormatSize(uint32_t _size)
 {
     const char *sizes[6] = {"B ", "KB", "MB", "GB", "TB", "PB"};
     char sizeout[32] = {0};
@@ -153,7 +154,7 @@ std::string FormatSize(u32 _size)
     return sizeout;
 }
 
-std::string FormatNumber(u32 _number)
+std::string FormatNumber(uint32_t _number)
 {
     std::string num = std::to_string(_number);
     int i = num.length() - 3;
@@ -165,7 +166,7 @@ std::string FormatNumber(u32 _number)
     return num;
 }
 
-std::string ShortenText(std::string _text, u32 _maxchar, std::string _dots, bool _dotspos) // _dotspos: 0 - left, 1 - right
+std::string ShortenText(std::string _text, uint32_t _maxchar, std::string _dots, bool _dotspos) // _dotspos: 0 - left, 1 - right
 {
     if (_text.length() > _maxchar)
     {
@@ -184,11 +185,11 @@ std::string ShortenText(std::string _text, u32 _maxchar, std::string _dots, bool
     return _text;
 }
 
-std::string WrapText(std::string _text, u32 _maxchar)
+std::string WrapText(std::string _text, uint32_t _maxchar)
 {
     if (_text.length() > _maxchar)
     {
-        for (u32 i = 0; i < _text.length(); i += _maxchar)
+        for (uint32_t i = 0; i < _text.length(); i += _maxchar)
         {
             if (i % _maxchar == 0 && i != 0)
                 _text.insert(i-1, "\n");
@@ -198,14 +199,14 @@ std::string WrapText(std::string _text, u32 _maxchar)
     return _text;
 }
 
-std::vector<std::string> DivideLongText(std::string _text, u32 _maxchar)
+std::vector<std::string> DivideLongText(std::string _text, uint32_t _maxchar)
 {
     std::vector<std::string> textcontainer;
-    u32 startpos = 0;
+    uint32_t startpos = 0;
 
     if (_text.length() > _maxchar)
     {
-        for (u32 i = 0; i < _text.length(); i += _maxchar)
+        for (uint32_t i = 0; i < _text.length(); i += _maxchar)
         {
             startpos = i;
             textcontainer.push_back(_text.substr(startpos, _maxchar));
@@ -223,7 +224,7 @@ namespace sys
 {
     std::string GetTextFromSoftwareKeyboard(std::string _header, std::string _guide, std::string _initial) // to do: check exception if error
     {
-        std::string text;
+        /*std::string text;
         SwkbdConfig kbd;
         char tmpoutstr[FS_MAX_PATH] = {0};
         Result rc = swkbdCreate(&kbd, 0);
@@ -241,7 +242,8 @@ namespace sys
             }
         }
         swkbdClose(&kbd);
-        return text;
+        return text;*/
+		return _initial;
     }
 
     std::string GetCurrentTime()
@@ -255,37 +257,15 @@ namespace sys
         std::sprintf(time, "%02d:%02d:%02d", hour, min, sec);
         return time;
     }
+    
+    static uint32_t batteryPercent[7] = {5, 0, 1, 3, 5, 8, 10};
 
-    u32 GetBatteryLevel()
-    {
-        u32 battery = 0;
-        psmGetBatteryChargePercentage(&battery);
-        return battery;
-    }
-
-    bool IsBatteryCharging()
-    {
-        ChargerType chargertype = ChargerType_None;
-        psmGetChargerType(&chargertype);
-        return (chargertype > ChargerType_None);
-    }
-
-    u32 GetWiFiConnectionSignal()
-    {
-        NifmInternetConnectionType contype;
-        NifmInternetConnectionStatus constatus;
-        u32 wifistrength = 0;
-
-        Result rc = nifmGetInternetConnectionStatus(&contype, &wifistrength, &constatus);
-
-        if (R_SUCCEEDED(rc) && contype == 1)
-            return wifistrength;
-        else
-            return 5; // no connection or airplane mode or ethernet connection or nifmError
-    }
-
-    bool IsNRO()
-    {
-        return envIsNso();
+	void GetBatteryStatus(uint32_t &level, bool &charging)
+	{
+		VPADReadError error;
+		VPADStatus status;
+		VPADRead(VPAD_CHAN_0, &status, 1, &error);
+		level = batteryPercent[status.battery % 7];
+		charging = status.battery == 0;
     }
 }

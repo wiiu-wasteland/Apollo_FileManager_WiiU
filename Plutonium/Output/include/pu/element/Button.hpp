@@ -20,16 +20,16 @@ namespace pu::element
     class Button : public Element
     {
         public:
-            Button(u32 X, u32 Y, u32 Width, u32 Height, std::string Content, draw::Color TextColor, draw::Color Color, u32 fontSize = 25);
+            Button(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, std::string Content, draw::Color TextColor, draw::Color Color, uint32_t fontSize = 25);
             ~Button();
-            u32 GetX();
-            void SetX(u32 X);
-            u32 GetY();
-            void SetY(u32 Y);
-            u32 GetWidth();
-            void SetWidth(u32 Width);
-            u32 GetHeight();
-            void SetHeight(u32 Height);
+            uint32_t GetX();
+            void SetX(uint32_t X);
+            uint32_t GetY();
+            void SetY(uint32_t Y);
+            uint32_t GetWidth();
+            void SetWidth(uint32_t Width);
+            uint32_t GetHeight();
+            void SetHeight(uint32_t Height);
             std::string GetContent();
             void SetContent(std::string Content);
             draw::Color GetColor();
@@ -37,18 +37,18 @@ namespace pu::element
             void SetContentFont(render::NativeFont Font);
             void SetOnClick(std::function<void()> ClickCallback);
             void OnRender(render::Renderer *Drawer);
-            void OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus);
+            void OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus);
         private:
-            u32 x;
-            u32 y;
-            u32 w;
-            u32 h;
+            uint32_t x;
+            uint32_t y;
+            uint32_t w;
+            uint32_t h;
             render::NativeFont fnt;
             draw::Color clr;
             std::string cnt;
             std::function<void()> clickcb;
             bool hover;
-            s32 hoverfact;
+            int32_t hoverfact;
             render::NativeTexture ntex;
     };
 }

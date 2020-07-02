@@ -1,9 +1,11 @@
 #pragma once
-#define SDCARD_PATH "sdmc:/"
+#define SDCARD_PATH "fs:/vol/external01"
 #include <iostream>
-#include <switch.h>
 #include <vector>
 #include <pu/Plutonium>
+#include <whb/log.h>
+#include <whb/log_udp.h>
+#include <whb/crash.h>
 
 struct File
 {
@@ -11,11 +13,11 @@ struct File
     std::string name;
     std::string path;
     bool type; // 0 - file, 1 - dir
-    u32 size;
+    uint32_t size;
     std::string extension;
     bool selected = false;
 
-    File(std::string _pn = "", std::string _n = "", std::string _p = "", bool _t = 0, u32 _s = 0, std::string _x = "")
+    File(std::string _pn = "", std::string _n = "", std::string _p = "", bool _t = 0, uint32_t _s = 0, std::string _x = "")
     : pathname(_pn),
       name(_n),
       path(_p),

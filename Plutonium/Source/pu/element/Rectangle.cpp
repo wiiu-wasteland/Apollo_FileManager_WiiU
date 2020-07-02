@@ -2,7 +2,7 @@
 
 namespace pu::element
 {
-    Rectangle::Rectangle(u32 X, u32 Y, u32 Width, u32 Height, draw::Color RecColor, u32 BorderRadius) : Element::Element()
+    Rectangle::Rectangle(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, draw::Color RecColor, uint32_t BorderRadius) : Element::Element()
     {
         this->x = X;
         this->y = Y;
@@ -15,52 +15,52 @@ namespace pu::element
 		this->sideShadowMainAlpha = 160;
     }
 
-    u32 Rectangle::GetX()
+    uint32_t Rectangle::GetX()
     {
         return this->x;
     }
 
-    void Rectangle::SetX(u32 X)
+    void Rectangle::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 Rectangle::GetY()
+    uint32_t Rectangle::GetY()
     {
         return this->y;
     }
 
-    void Rectangle::SetY(u32 Y)
+    void Rectangle::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 Rectangle::GetWidth()
+    uint32_t Rectangle::GetWidth()
     {
         return this->w;
     }
 
-    void Rectangle::SetWidth(u32 Width)
+    void Rectangle::SetWidth(uint32_t Width)
     {
         this->w = Width;
     }
 
-    u32 Rectangle::GetHeight()
+    uint32_t Rectangle::GetHeight()
     {
         return this->h;
     }
 
-    void Rectangle::SetHeight(u32 Height)
+    void Rectangle::SetHeight(uint32_t Height)
     {
         this->h = Height;
     }
 
-    u32 Rectangle::GetBorderRadius()
+    uint32_t Rectangle::GetBorderRadius()
     {
         return this->h;
     }
 
-    void Rectangle::SetBorderRadius(u32 Radius)
+    void Rectangle::SetBorderRadius(uint32_t Radius)
     {
         this->borderr = Radius;
     }
@@ -75,7 +75,7 @@ namespace pu::element
         this->clr = RecColor;
     }
 
-	void Rectangle::SetDrawSideShadow(bool drawSideShadow, u32 sideShadowWidth, u32 sideShadowMainAlpha)
+	void Rectangle::SetDrawSideShadow(bool drawSideShadow, uint32_t sideShadowWidth, uint32_t sideShadowMainAlpha)
 	{
 		this->drawSideShadow = drawSideShadow;
 		this->sideShadowWidth = sideShadowWidth;
@@ -84,15 +84,15 @@ namespace pu::element
 	
     void Rectangle::OnRender(render::Renderer *Drawer)
     {
-        u32 rdx = this->GetProcessedX();
-        u32 rdy = this->GetProcessedY();
+        uint32_t rdx = this->GetProcessedX();
+        uint32_t rdy = this->GetProcessedY();
         Drawer->RenderRectangleFill(this->clr, rdx, rdy, this->w, this->h);
 		
 		if (this->drawSideShadow)
 			Drawer->RenderSideShadowSimple(this->x+this->w, this->y, this->sideShadowWidth, this->h, this->sideShadowMainAlpha);	
     }
 
-    void Rectangle::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void Rectangle::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
     }
 }

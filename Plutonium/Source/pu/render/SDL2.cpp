@@ -22,54 +22,45 @@ namespace pu::render
         return ConvertToTexture(IMG_Load(Path.c_str()));
     }
 
-    NativeFont LoadSharedFont(SharedFont Type, u32 Size)
+    NativeFont LoadStandardFont(uint32_t Size)
     {
-        PlFontData plfont;
-        NativeFont font = NULL;
-        SDL_RWops *mem = NULL;
-        Result rc = plGetSharedFontByType(&plfont, static_cast<u32>(Type));
-        if(rc == 0)
-        {
-            mem = SDL_RWFromMem(plfont.address, plfont.size);
-            font = TTF_OpenFontRW(mem, 1, Size);
-        }
-        return font;
+		return LoadFont("romfs:/Fonts/SourceSansPro-Regular.ttf", Size);
     }
 
-    NativeFont LoadFont(std::string Path, u32 Size)
+    NativeFont LoadFont(std::string Path, uint32_t Size)
     {
         return TTF_OpenFont(Path.c_str(), Size);
     }
 
-    u32 GetTextureWidth(NativeTexture Texture)
+    uint32_t GetTextureWidth(NativeTexture Texture)
     {
         int w = 0;
         SDL_QueryTexture(Texture, NULL, NULL, &w, NULL);
-        return (u32)w;
+        return (uint32_t)w;
     }
 
-    u32 GetTextureHeight(NativeTexture Texture)
+    uint32_t GetTextureHeight(NativeTexture Texture)
     {
         int h = 0;
         SDL_QueryTexture(Texture, NULL, NULL, NULL, &h);
-        return (u32)h;
+        return (uint32_t)h;
     }
 
-    u32 GetTextWidth(NativeFont Font, std::string Text)
+    uint32_t GetTextWidth(NativeFont Font, std::string Text)
     {
         int tw = 0;
         TTF_SizeUTF8(Font, Text.c_str(), &tw, NULL);
-        return (u32)tw;
+        return (uint32_t)tw;
     }
 
-    u32 GetTextHeight(NativeFont Font, std::string Text)
+    uint32_t GetTextHeight(NativeFont Font, std::string Text)
     {
         int th = 0;
         TTF_SizeUTF8(Font, Text.c_str(), NULL, &th);
-        return (u32)th;
+        return (uint32_t)th;
     }
 
-    void SetAlphaValue(NativeTexture Texture, u8 Alpha)
+    void SetAlphaValue(NativeTexture Texture, uint8_t Alpha)
     {
         SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(Texture, Alpha);

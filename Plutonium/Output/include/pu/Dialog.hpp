@@ -28,7 +28,7 @@ namespace pu
             bool HasCancelOption();
             void SetIcon(std::string Icon);
             bool Hasicon();
-            u32 Show(render::Renderer *Drawer, void *App);
+            uint32_t Show(render::Renderer *Drawer, void *App);
             bool UserCancelled();
             bool IsOk();
         private:
@@ -41,12 +41,12 @@ namespace pu
             render::NativeTexture cnt;
             std::vector<std::string> sopts;
             std::vector<render::NativeTexture> opts;
-            u32 osel;
+            uint32_t osel;
             bool cancel;
             bool hicon;
             render::NativeTexture icon;
-            u32 prevosel;
-            s32 pselfact;
-            s32 selfact;
+            uint32_t prevosel;
+            int32_t pselfact;
+            int32_t selfact;
     };
 }

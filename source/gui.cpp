@@ -76,7 +76,7 @@ namespace ui
 
                 // to do: check whether directory is empty/file
                 item->SetIcon(GetRomFsResource(GetRomFsFileExt(element.type)));
-                item->AddOnClick(std::bind(&MainLayout::OpenAction, this), KEY_A);
+                item->AddOnClick(std::bind(&MainLayout::OpenAction, this), BUTTON_A);
                 this->filesMenu->AddItem(item);
             }
 
@@ -91,12 +91,12 @@ namespace ui
         }
     }
 
-    u32 MainLayout::GetSelectedIndex()
+    uint32_t MainLayout::GetSelectedIndex()
     {
         return this->filesMenu->GetSelectedIndex();
     }
 
-    u32 MainLayout::GetScrollIndex()
+    uint32_t MainLayout::GetScrollIndex()
     {
         return this->filesMenu->GetScrollIndex();
     }
@@ -106,7 +106,7 @@ namespace ui
         return this->emptyDirText->IsVisible();
     }
 
-    void MainLayout::SetCursorPosition(u32 _cursor, u32 _scroll)
+    void MainLayout::SetCursorPosition(uint32_t _cursor, uint32_t _scroll)
     {
         this->filesMenu->SetSelectedIndex(_cursor);
         this->filesMenu->SetScrollIndex(_scroll);

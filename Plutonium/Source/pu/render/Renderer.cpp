@@ -8,9 +8,8 @@ namespace pu::render
     {
         if(!this->initialized)
         {
-            Result rc = romfsInit();
-            this->okromfs = (rc == 0);
-            plInitialize();
+            int32_t rc = romfsInit();
+			this->okromfs = rc == 0;
             SDL_Init(SDL_INIT_EVERYTHING);
             this->rendwd = SDL_CreateWindow("Plutonium", 0, 0, 1280, 720, 0);
             purend = SDL_CreateRenderer(this->rendwd, -1, (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
@@ -36,7 +35,6 @@ namespace pu::render
             SDL_FreeSurface(this->rendsf);
             SDL_DestroyWindow(this->rendwd);
             SDL_Quit();
-            plExit();
             if(this->okromfs) romfsExit();
             this->initialized = false;
         }
@@ -63,94 +61,94 @@ namespace pu::render
         SDL_RenderPresent(purend);
     }
 
-    void Renderer::RenderTexture(NativeTexture Texture, u32 X, u32 Y, int AlphaMod)
+    void Renderer::RenderTexture(NativeTexture Texture, uint32_t X, uint32_t Y, int AlphaMod)
     {
         SDL_Rect pos;
         pos.x = X + this->basex;
         pos.y = Y + this->basey;
-        if(AlphaMod >= 0) SetAlphaValue(Texture, (u8)AlphaMod);
-        if(this->basea >= 0) SetAlphaValue(Texture, (u8)this->basea);
+        if(AlphaMod >= 0) SetAlphaValue(Texture, (uint8_t)AlphaMod);
+        if(this->basea >= 0) SetAlphaValue(Texture, (uint8_t)this->basea);
         SDL_QueryTexture(Texture, NULL, NULL, &pos.w, &pos.h);
         SDL_RenderCopy(purend, Texture, NULL, &pos);
     }
 
-    void Renderer::RenderTextureScaled(NativeTexture Texture, u32 X, u32 Y, u32 Width, u32 Height, int AlphaMod)
+    void Renderer::RenderTextureScaled(NativeTexture Texture, uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, int AlphaMod)
     {
         SDL_Rect pos;
         pos.x = X + this->basex;
         pos.y = Y + this->basey;
         pos.w = Width;
         pos.h = Height;
-        if(AlphaMod >= 0) SetAlphaValue(Texture, (u8)AlphaMod);
-        if(this->basea >= 0) SetAlphaValue(Texture, (u8)this->basea);
+        if(AlphaMod >= 0) SetAlphaValue(Texture, (uint8_t)AlphaMod);
+        if(this->basea >= 0) SetAlphaValue(Texture, (uint8_t)this->basea);
         SDL_RenderCopyEx(purend, Texture, NULL, &pos, 0, NULL, SDL_FLIP_NONE);
     }
 
-    void Renderer::RenderRectangle(draw::Color Color, u32 X, u32 Y, u32 Width, u32 Height)
+    void Renderer::RenderRectangle(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height)
     {
         SDL_Rect rect;
         rect.x = X + this->basex;
         rect.y = Y + this->basey;
         rect.w = Width;
         rect.h = Height;
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         SDL_SetRenderDrawColor(purend, Color.R, Color.G, Color.B, alpha);
         SDL_RenderDrawRect(purend, &rect);
     }
 
-    void Renderer::RenderRectangleFill(draw::Color Color, u32 X, u32 Y, u32 Width, u32 Height)
+    void Renderer::RenderRectangleFill(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height)
     {
         SDL_Rect rect;
         rect.x = X + this->basex;
         rect.y = Y + this->basey;
         rect.w = Width;
         rect.h = Height;
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         SDL_SetRenderDrawColor(purend, Color.R, Color.G, Color.B, alpha);
         SDL_RenderFillRect(purend, &rect);
     }
 	
-    void Renderer::RenderRoundedRectangle(draw::Color Color, u32 X, u32 Y, u32 Width, u32 Height, u32 Radius)
+    void Renderer::RenderRoundedRectangle(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, uint32_t Radius)
     {
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         roundedRectangleRGBA(purend, X + this->basex, Y + this->basey, X + this->basex + Width, Y + this->basey + Height, Radius, Color.R, Color.G, Color.B, alpha);
         SDL_SetRenderDrawBlendMode(purend, SDL_BLENDMODE_BLEND);
     }
 
-    void Renderer::RenderRoundedRectangleFill(draw::Color Color, u32 X, u32 Y, u32 Width, u32 Height, u32 Radius)
+    void Renderer::RenderRoundedRectangleFill(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, uint32_t Radius)
     {
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         roundedBoxRGBA(purend, X + this->basex, Y + this->basey, X + this->basex + Width, Y + this->basey + Height, Radius, Color.R, Color.G, Color.B, alpha);
         SDL_SetRenderDrawBlendMode(purend, SDL_BLENDMODE_BLEND);
     }
 
-    void Renderer::RenderCircle(draw::Color Color, u32 X, u32 Y, u32 Radius)
+    void Renderer::RenderCircle(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Radius)
     {
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         circleRGBA(purend, X + this->basex, Y + this->basey, Radius - 1, Color.R, Color.G, Color.B, alpha);
         aacircleRGBA(purend, X + this->basex, Y + this->basey, Radius - 1, Color.R, Color.G, Color.B, alpha);
     }
 
-    void Renderer::RenderCircleFill(draw::Color Color, u32 X, u32 Y, u32 Radius)
+    void Renderer::RenderCircleFill(draw::Color Color, uint32_t X, uint32_t Y, uint32_t Radius)
     {
-        u8 alpha = Color.A;
-        if(this->basea >= 0) alpha = (u8)this->basea;
+        uint8_t alpha = Color.A;
+        if(this->basea >= 0) alpha = (uint8_t)this->basea;
         filledCircleRGBA(purend, X + this->basex, Y + this->basey, Radius - 1, Color.R, Color.G, Color.B, alpha);
         aacircleRGBA(purend, X + this->basex, Y + this->basey, Radius - 1, Color.R, Color.G, Color.B, alpha);
     }
 
-    void Renderer::RenderShadowSimple(u32 X, u32 Y, u32 Width, u32 Height, u32 BaseAlpha, u8 MainAlpha)
+    void Renderer::RenderShadowSimple(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, uint32_t BaseAlpha, uint8_t MainAlpha)
     {
         bool crop = false;
-        u32 shw = Width;
-        u32 shx = X;
-        u32 shy = Y;
-        for(s32 al = BaseAlpha; al > 0; al -= (180 / Height))
+        uint32_t shw = Width;
+        uint32_t shx = X;
+        uint32_t shy = Y;
+        for(int32_t al = BaseAlpha; al > 0; al -= (180 / Height))
         {
             this->RenderRectangleFill({ 130, 130, 130, (al * (MainAlpha / 255)) }, shx + this->basex, shy + this->basey, shw, 1);
             if(crop)
@@ -163,13 +161,13 @@ namespace pu::render
         }
     }
 	
-	void Renderer::RenderSideShadowSimple(u32 X, u32 Y, u32 Width, u32 Height, u32 BaseAlpha, u8 MainAlpha)
+	void Renderer::RenderSideShadowSimple(uint32_t X, uint32_t Y, uint32_t Width, uint32_t Height, uint32_t BaseAlpha, uint8_t MainAlpha)
     {
         bool crop = false;
-		u32 shh = Height;
-        u32 shx = X;
-        u32 shy = Y;
-        for(s32 al = BaseAlpha; al > 0; al -= (180 / Width))
+		uint32_t shh = Height;
+        uint32_t shx = X;
+        uint32_t shy = Y;
+        for(int32_t al = BaseAlpha; al > 0; al -= (180 / Width))
         {
             this->RenderRectangleFill({ 130, 130, 130, (al * (MainAlpha / 255)) }, shx + this->basex, shy + this->basey, 1, shh);
             if(crop)
@@ -182,7 +180,7 @@ namespace pu::render
         }
     }
 
-    void Renderer::SetBaseRenderPosition(u32 X, u32 Y)
+    void Renderer::SetBaseRenderPosition(uint32_t X, uint32_t Y)
     {
         this->basex = X;
         this->basey = Y;
@@ -193,7 +191,7 @@ namespace pu::render
         this->SetBaseRenderPosition(0, 0);
     }
 
-    void Renderer::SetBaseRenderAlpha(u8 Alpha)
+    void Renderer::SetBaseRenderAlpha(uint8_t Alpha)
     {
         this->basea = (int)Alpha;
     }

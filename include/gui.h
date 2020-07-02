@@ -9,10 +9,10 @@ namespace ui
             MainLayout();
             ~MainLayout();
             void LoadItems(std::vector<File> &files);
-            u32 GetSelectedIndex();
-            u32 GetScrollIndex();
+            uint32_t GetSelectedIndex();
+            uint32_t GetScrollIndex();
             bool IsEmptyDirTextShown();
-            void SetCursorPosition(u32 _cursor, u32 _scroll);
+            void SetCursorPosition(uint32_t _cursor, uint32_t _scroll);
             void SetMenuElementIndexColor(pu::draw::Color _color);
             void SetLocationBarText(std::string _text);
             void OpenAction();

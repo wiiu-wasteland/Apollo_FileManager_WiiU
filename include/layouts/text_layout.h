@@ -16,7 +16,7 @@ namespace ui
             void End();
 
         private:
-            u32 scroll = 0;
+            uint32_t scroll = 0;
             std::vector<std::string> originalTextFile;
             std::vector<std::string> wrappedTextFile;
             pu::element::TextBlock *textContainer;

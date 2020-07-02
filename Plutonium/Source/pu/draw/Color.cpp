@@ -10,7 +10,7 @@ namespace pu::draw
         this->A = 255;
     }
 
-    Color::Color(u8 R, u8 G, u8 B, u8 A)
+    Color::Color(uint8_t R, uint8_t G, uint8_t B, uint8_t A)
     {
         this->R = R;
         this->G = G;

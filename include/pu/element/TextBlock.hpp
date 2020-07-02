@@ -19,30 +19,30 @@ namespace pu::element
     class TextBlock : public Element
     {
         public:
-            TextBlock(u32 X, u32 Y, std::string Text, u32 FontSize = 25);
+            TextBlock(uint32_t X, uint32_t Y, std::string Text, uint32_t FontSize = 25);
             ~TextBlock();
-            u32 GetX();
-            void SetX(u32 X);
-            u32 GetY();
-            void SetY(u32 Y);
-            u32 GetWidth();
-            u32 GetHeight();
-            u32 GetTextWidth();
-            u32 GetTextHeight();
+            uint32_t GetX();
+            void SetX(uint32_t X);
+            uint32_t GetY();
+            void SetY(uint32_t Y);
+            uint32_t GetWidth();
+            uint32_t GetHeight();
+            uint32_t GetTextWidth();
+            uint32_t GetTextHeight();
             std::string GetText();
             void SetText(std::string Text);
             void SetFont(render::NativeFont Font);
-			void SetFont(std::string Font, u32 Size);
+			void SetFont(std::string Font, uint32_t Size);
             draw::Color GetColor();
             void SetColor(draw::Color Color);
             void OnRender(render::Renderer *Drawer);
-            void OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus);
+            void OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus);
         private:
             std::string text;
-            u32 x;
-            u32 y;
+            uint32_t x;
+            uint32_t y;
             render::NativeFont fnt;
-            u32 fsize;
+            uint32_t fsize;
             draw::Color clr;
             render::NativeTexture ntex;
     };

@@ -13,6 +13,7 @@
 
 #pragma once
 #include <pu/element/Element.hpp>
+#include <pu/input/Input.hpp>
 #include <vector>
 #include <functional>
 #include <chrono>
@@ -32,10 +33,10 @@ namespace pu::element
             draw::Color GetColor();
 			draw::Color GetSecondNameColor();
             void SetColor(draw::Color Color);
-            void AddOnClick(std::function<void()> Callback, u64 Key = KEY_A);
-            u32 GetCallbackCount();
-            std::function<void()> GetCallback(u32 Index);
-            u64 GetCallbackKey(u32 Index);
+            void AddOnClick(std::function<void()> Callback, uint32_t Key = BUTTON_A);
+            uint32_t GetCallbackCount();
+            std::function<void()> GetCallback(uint32_t Index);
+            uint32_t GetCallbackKey(uint32_t Index);
             std::string GetIcon();
             void SetIcon(std::string Icon);
             bool HasIcon();
@@ -44,8 +45,8 @@ namespace pu::element
             render::NativeTexture GetNameTexture();
 			render::NativeTexture GetSecondNameTexture();
             render::NativeTexture GetIconTexture();
-			void SetNameFont(std::string Font, u32 Size = 25);
-			void SetSecondNameFont(std::string Font, u32 Size = 20);
+			void SetNameFont(std::string Font, uint32_t Size = 25);
+			void SetSecondNameFont(std::string Font, uint32_t Size = 20);
         private:
             std::string name;
 			std::string secondname;
@@ -54,7 +55,7 @@ namespace pu::element
             bool hasicon;
             std::string icon;
             std::vector<std::function<void()>> cbs;
-            std::vector<u64> cbipts;
+            std::vector<uint32_t> cbipts;
             render::NativeFont font;
 			render::NativeFont secondfont;
             render::NativeTexture itex;
@@ -65,19 +66,19 @@ namespace pu::element
     class Menu : public Element
     {
         public:
-            Menu(u32 X, u32 Y, u32 Width, draw::Color OptionColor, u32 ItemSize, u32 ItemsToShow);
+            Menu(uint32_t X, uint32_t Y, uint32_t Width, draw::Color OptionColor, uint32_t ItemSize, uint32_t ItemsToShow);
             ~Menu();
-            u32 GetX();
-            void SetX(u32 X);
-            u32 GetY();
-            void SetY(u32 Y);
-            u32 GetWidth();
-            void SetWidth(u32 Width);
-            u32 GetHeight();
-            u32 GetItemSize();
-            void SetItemSize(u32 ItemSize);
-            u32 GetNumberOfItemsToShow();
-            void SetNumberOfItemsToShow(u32 ItemsToShow);
+            uint32_t GetX();
+            void SetX(uint32_t X);
+            uint32_t GetY();
+            void SetY(uint32_t Y);
+            uint32_t GetWidth();
+            void SetWidth(uint32_t Width);
+            uint32_t GetHeight();
+            uint32_t GetItemSize();
+            void SetItemSize(uint32_t ItemSize);
+            uint32_t GetNumberOfItemsToShow();
+            void SetNumberOfItemsToShow(uint32_t ItemsToShow);
             draw::Color GetColor();
             void SetColor(draw::Color Color);
             draw::Color GetOnFocusColor();
@@ -89,33 +90,33 @@ namespace pu::element
             void ClearItems();
             void SetCooldownEnabled(bool Cooldown);
             MenuItem *GetSelectedItem();
-            u32 GetSelectedIndex();
-			u32 GetScrollIndex();
-            void SetSelectedIndex(u32 Index);
-			void SetScrollIndex(u32 Scroll);
+            uint32_t GetSelectedIndex();
+			uint32_t GetScrollIndex();
+            void SetSelectedIndex(uint32_t Index);
+			void SetScrollIndex(uint32_t Scroll);
             void OnRender(render::Renderer *Drawer);
-            void OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus);
+            void OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus);
 			void SetDrawShadow(bool drawShadow);
 			void SetOnFocus(bool onFocus);
 			void SetIconScale(double Scale);
 			void SetIconOnly(bool iconOnly);
 			double GetIconScale();
 			bool IsIconOnly();
-			void SetScrollbarPosition(u32 scbpos);
-			void SetScrollbarWidth(u32 scbwidth);
+			void SetScrollbarPosition(uint32_t scbpos);
+			void SetScrollbarWidth(uint32_t scbwidth);
 			void SetSecondNamePositionPercent(double Percent);
         private:
             bool dtouch;
-            u32 x;
-            u32 y;
-            u32 w;
-            u32 isize;
-            u32 ishow;
-            u32 previsel;
-            u32 fisel;
-            u32 isel;
-            s32 pselfact;
-            s32 selfact;
+            uint32_t x;
+            uint32_t y;
+            uint32_t w;
+            uint32_t isize;
+            uint32_t ishow;
+            uint32_t previsel;
+            uint32_t fisel;
+            uint32_t isel;
+            int32_t pselfact;
+            int32_t selfact;
             draw::Color scb;
             draw::Color clr;
             draw::Color fcs;
@@ -132,8 +133,8 @@ namespace pu::element
 			bool onFocus;
 			bool iconOnly;
 			double iconScale;
-			u32 scbpos;
-			u32 scbwidth;
+			uint32_t scbpos;
+			uint32_t scbwidth;
 			double snposper;
     };
 }

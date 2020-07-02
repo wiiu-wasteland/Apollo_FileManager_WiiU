@@ -1,7 +1,7 @@
     
 #pragma once
 #include <string>
-#include <switch.h>
+#include <cstdint>
 #include <pu/draw.hpp>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -16,26 +16,16 @@ namespace pu::render
     typedef SDL_Texture *NativeTexture;
     typedef TTF_Font *NativeFont;
 
-    enum class SharedFont
-    {
-        Standard,
-        ChineseSimplified,
-        ExtendedChineseSimplified,
-        ChineseTraditional,
-        Korean,
-        NintendoExtended,
-    };
-
     NativeTexture ConvertToTexture(NativeSurface Surface);
     NativeTexture RenderText(NativeFont Font, std::string Text, draw::Color Color);
     NativeTexture LoadImage(std::string Path);
-    NativeFont LoadSharedFont(SharedFont Type, u32 Size);
-    NativeFont LoadFont(std::string Path, u32 Size);
-    u32 GetTextureWidth(NativeTexture Texture);
-    u32 GetTextureHeight(NativeTexture Texture);
-    u32 GetTextWidth(NativeFont Font, std::string Text);
-    u32 GetTextHeight(NativeFont Font, std::string Text);
-    void SetAlphaValue(NativeTexture Texture, u8 Alpha);
+    NativeFont LoadStandardFont(uint32_t Size);
+    NativeFont LoadFont(std::string Path, uint32_t Size);
+    uint32_t GetTextureWidth(NativeTexture Texture);
+    uint32_t GetTextureHeight(NativeTexture Texture);
+    uint32_t GetTextWidth(NativeFont Font, std::string Text);
+    uint32_t GetTextHeight(NativeFont Font, std::string Text);
+    void SetAlphaValue(NativeTexture Texture, uint8_t Alpha);
     void DeleteFont(NativeFont Font);
     void DeleteTexture(NativeTexture Texture);
 }

@@ -23,29 +23,29 @@ class Browser
         void MoveFiles();
         void PasteFiles();
         void ChangeSortType(SortType _sorttype);
-        u32 GetNumberOfSelected();
-        u32 GetClipboardSize();
+        uint32_t GetNumberOfSelected();
+        uint32_t GetClipboardSize();
 
         std::string GetFileName();
         std::string GetFilePath();
         std::string GetFilePathName();
         std::string GetFilePermissions();
         std::string GetFileExtension();
-        u32 GetFilesSize();
+        uint32_t GetFilesSize();
         bool GetFileType();
-        std::pair<u32, u32> CountMultipleFilesType(); // first - number of files, second - number of dirs
+        std::pair<uint32_t, uint32_t> CountMultipleFilesType(); // first - number of files, second - number of dirs
 
     private:
         File firstSelected;
-        u32 numberOfSelected = 0;
+        uint32_t numberOfSelected = 0;
         bool moveFlag = 0; // 0 - copy, 1 - cut
         bool emptyDir = false;
         SortType sortType = SortType::Alphabetical;
         std::string currentPath = SDCARD_PATH;
         std::vector<File> currentFiles;
         std::vector<ClipboardNode> clipboard;
-        std::vector<u32> lastCursorPosition;
-        std::vector<u32> lastScrollPosition;
+        std::vector<uint32_t> lastCursorPosition;
+        std::vector<uint32_t> lastScrollPosition;
         inline void CopyFileOrDir(std::string _source, std::string _dest, bool _type);
         inline void CopyFileOrDirOverwrite(std::string _source, std::string _dest, bool _type, bool _moveflag);
 };

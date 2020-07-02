@@ -2,14 +2,14 @@
 
 namespace pu::element
 {
-    Toggle::Toggle(u32 X, u32 Y, std::string Content, u64 Key, draw::Color Color) : Element::Element()
+    Toggle::Toggle(uint32_t X, uint32_t Y, std::string Content, uint32_t Key, draw::Color Color) : Element::Element()
     {
         this->x = X;
         this->y = Y;
         this->key = Key;
         this->cnt = Content;
         this->clr = Color;
-        this->fnt = render::LoadSharedFont(render::SharedFont::Standard, 25);
+        this->fnt = render::LoadStandardFont(25);
         this->fsize = 25;
         this->togfact = 255;
         this->checked = false;
@@ -30,32 +30,32 @@ namespace pu::element
         }
     }
 
-    u32 Toggle::GetX()
+    uint32_t Toggle::GetX()
     {
         return this->x;
     }
 
-    void Toggle::SetX(u32 X)
+    void Toggle::SetX(uint32_t X)
     {
         this->x = X;
     }
 
-    u32 Toggle::GetY()
+    uint32_t Toggle::GetY()
     {
         return this->y;
     }
 
-    void Toggle::SetY(u32 Y)
+    void Toggle::SetY(uint32_t Y)
     {
         this->y = Y;
     }
 
-    u32 Toggle::GetWidth()
+    uint32_t Toggle::GetWidth()
     {
         return 0;
     }
 
-    u32 Toggle::GetHeight()
+    uint32_t Toggle::GetHeight()
     {
         return 0;
     }
@@ -91,12 +91,12 @@ namespace pu::element
         this->ntex = render::RenderText(this->fnt, this->cnt, Color);
     }
 
-    u64 Toggle::GetKey()
+    uint32_t Toggle::GetKey()
     {
         return this->key;
     }
 
-    void Toggle::SetKey(u64 Key)
+    void Toggle::SetKey(uint32_t Key)
     {
         this->key = Key;
     }
@@ -108,14 +108,14 @@ namespace pu::element
 
     void Toggle::OnRender(render::Renderer *Drawer)
     {
-        u32 tw = render::GetTextWidth(this->fnt, this->cnt);
-        u32 th = render::GetTextHeight(this->fnt, this->cnt);
-        u32 rw = th;
-        u32 rh = (2 * th);
-        u32 rx = this->GetProcessedX();
-        u32 ry = this->GetProcessedY();
-        u32 tx = rx + rw + (th / 2);
-        u32 ty = ry + (th / 2);
+        uint32_t tw = render::GetTextWidth(this->fnt, this->cnt);
+        uint32_t th = render::GetTextHeight(this->fnt, this->cnt);
+        uint32_t rw = th;
+        uint32_t rh = (2 * th);
+        uint32_t rx = this->GetProcessedX();
+        uint32_t ry = this->GetProcessedY();
+        uint32_t tx = rx + rw + (th / 2);
+        uint32_t ty = ry + (th / 2);
         if(this->checked)
         {
             Drawer->RenderRectangleFill({ 130, 130, 130, 255 }, rx, ry, rw, rh);
@@ -139,8 +139,8 @@ namespace pu::element
         Drawer->RenderTexture(this->ntex, tx, ty);
     }
 
-    void Toggle::OnInput(u64 Down, u64 Up, u64 Held, bool Touch, bool Focus)
+    void Toggle::OnInput(uint32_t Down, uint32_t Up, uint32_t Held, bool Touch, bool Focus)
     {
-        if((Down & this->key) || ((this->key == KEY_TOUCH) && Touch)) this->checked = !this->checked;
+        if((Down & this->key) || ((this->key == BUTTON_TOUCH) && Touch)) this->checked = !this->checked;
     }
 }
